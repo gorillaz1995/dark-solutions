@@ -15,7 +15,7 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
   name: string;
   className: string;
   background: ReactNode;
-  Icon: React.ElementType;
+
   description: string;
   href: string;
   cta: string;
@@ -26,7 +26,7 @@ const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
   return (
     <div
       className={cn(
-        "grid w-[85%] auto-rows-[25rem] grid-cols-3 gap-8 px-2 lg:px-20 mx-auto",
+        "w-[90%] sm:w-[85%] md:w-[80%] lg:w-[85%] grid auto-rows-[25rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 lg:px-20 mx-auto",
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ const BentoCard = ({
   name,
   className,
   background,
-  Icon, // This prop is used to render the icon component
+
   description,
 
   style,
@@ -49,7 +49,7 @@ const BentoCard = ({
   <div
     key={name}
     className={cn(
-      "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl",
+      "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl",
       // light styles
       "bg-gradient-to-r from-[#AEFC00] to-[#ffc300] [box-shadow:0_0_0_1px_rgba(0,0,0,.01),0_1px_2px_rgba(0,0,0,.02),0_6px_12px_rgba(0,0,0,.03)] [border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-10px_40px_-10px_#ffffff0f_inset]",
 
@@ -74,11 +74,9 @@ const BentoCard = ({
     </div>
     <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-2 p-6 transition-all duration-300 group-hover:-translate-y-10">
       {/* Render the Icon component */}
-      {Icon && typeof Icon === "function" && (
-        <Icon className="h-6 w-6 mb-2 text-primary" />
-      )}
+
       <h3
-        className="text-xl lg:text-3xl text-[#00000]"
+        className="text-xl lg:text-2xl  text-[#00000]"
         style={{ fontFamily: "Lato, serif", fontWeight: "700" }}
       >
         {name}
