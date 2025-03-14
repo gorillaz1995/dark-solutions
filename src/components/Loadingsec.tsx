@@ -30,7 +30,7 @@ const LoadingSec: React.FC<LoadingSecProps> = ({
   return (
     <>
       {isLoading && (
-        <div className="fixed inset-0 z-50 overflow-hidden bg-amber-300">
+        <div className="fixed inset-0 z-50 overflow-hidden bg-amber-300 h-screen w-screen">
           {/* Simple split layout */}
           <div className="absolute inset-0 flex">
             {/* Left panel */}

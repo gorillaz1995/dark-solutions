@@ -137,7 +137,23 @@
     #495057
   );
 }
-
+.backgrd2 {
+  background-image: linear-gradient(
+    to bottom,
+    #495057,
+    #454c53,
+    #41474e,
+    #3d434a,
+    #393f46,
+    #34383f,
+    #303238,
+    #2b2c31,
+    #232226,
+    #1b191b,
+    #110f10,
+    #000000
+  );
+}
 @font-face {
   font-family: "Fraunces";
   src: url("/fonts/Fraunces-VariableFont_SOFT,WONK,opsz,wght.ttf")
