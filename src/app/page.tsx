@@ -1,16 +1,13 @@
 import Scene from "./Testx";
-import Scndsection from "./parts/main-page/Scndsection";
-
+import Glidex from "./parts/main-page/Glidex";
 export default function Home() {
   return (
-    <div className="overflow-hidden bg-gradient">
+    <div className="overflow-hidden ">
       <div className="h-screen">
         <Scene />
       </div>
 
-      <div className="py-10 backgrd2">
-        <Scndsection />
-      </div>
+      <Glidex />
     </div>
   );
 }
