@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Geist, Geist_Mono, Lato } from "next/font/google";
 import "./globals.css";
+import Footer from "./parts/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} ${lato.variable} antialiased`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );

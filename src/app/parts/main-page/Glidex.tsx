@@ -8,10 +8,10 @@ export default function Glidex() {
       </div>
       {/* Smooth transition banner from dark to bright gradient */}
       <div
-        className="h-[30vh] w-full relative"
+        className="h-[15vh] w-full relative"
         style={{
           background:
-            "linear-gradient(to bottom, #000000, #111111 10%, #222222 20%, #333333 30%, #444444 40%, #555555 50%, #666666 60%, #777777 70%, #888866 75%, #999955 80%, #aaaa44 85%, #bbbb33 90%, #cccc22 95%, #dddd11 98%, #aefc00)",
+            "linear-gradient(to bottom, #000000   55%, #999955 80%, #aaaa44 85%, #bbbb33 90%, #cccc22 95%, #dddd11 98%)",
         }}
       >
         {/* Subtle overlay to soften the transition to the Grid2Demo section */}

@@ -80,14 +80,14 @@ function Secondtexthero() {
   }, []);
 
   return (
-    <div className="w-full relativ">
+    <div className="w-full lg:h-[35vh]">
       {/* 3D Glass Section */}
       <div className="relative">
         {/* Particles background */}
         <div className="absolute inset-0 z-40">
           <Particles
             className="absolute inset-0"
-            quantity={isMobile ? 30 : 100}
+            quantity={isMobile ? 40 : 100}
             color="#ffd60a"
           />
         </div>
@@ -127,7 +127,6 @@ function Secondtexthero() {
             transformOrigin: "center top",
             perspective: "1000px",
             // Apply 40% more height on larger displays
-            height: isMobile ? "AUTO" : "400%",
           }}
         >
           {/* Wave highlight effects - multiple layers for depth */}
