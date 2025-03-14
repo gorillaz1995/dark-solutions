@@ -80,7 +80,7 @@ function Secondtexthero() {
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full relativ">
       {/* 3D Glass Section */}
       <div className="relative">
         {/* Particles background */}

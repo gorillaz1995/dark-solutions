@@ -299,13 +299,11 @@ const Scene: React.FC = () => {
       <div
         style={{
           zIndex: 30,
-          position: "relative",
-          transform:
-            window.innerWidth < 377
-              ? "translateY(111%)"
-              : window.innerWidth < 800
-              ? "translateY(185%)"
-              : "translateY(-16%)",
+          position: "absolute",
+
+          left: 0,
+          right: 0,
+          bottom: 0,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
