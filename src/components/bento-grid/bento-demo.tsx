@@ -36,7 +36,7 @@ const OscillatingWaves = () => {
   });
 
   return (
-    <div className="relative inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+    <div className="relative inset-0  overflow-hidden pointer-events-none z-0">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
@@ -545,7 +545,7 @@ const features = [
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(1px)",
+            backdropFilter: "blur(25px)",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             borderRadius: "0.25rem",
             zIndex: 10,
@@ -581,7 +581,7 @@ const features = [
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(2px)",
+            backdropFilter: "blur(25px)",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             borderRadius: "0.25rem",
             zIndex: 10,
@@ -612,7 +612,7 @@ const features = [
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(5px)",
+            backdropFilter: "blur(2s5px)",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             borderRadius: "0.25rem",
             zIndex: 10,
@@ -644,7 +644,7 @@ const features = [
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(0.75px)",
+            backdropFilter: "blur(25px)",
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             borderRadius: "0.25rem",
             zIndex: 10,

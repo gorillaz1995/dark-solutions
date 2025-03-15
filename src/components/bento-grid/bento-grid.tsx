@@ -51,12 +51,14 @@ const BentoCard = ({
     className={cn(
       "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl",
       // Enhanced 3D effect with shadows and light
-      "bg-gradient-to-r from-[#AEFC00] to-[#ffc300] transition-all duration-200",
+
       className
     )}
     style={{
       boxShadow:
-        "0 2px 10px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.1)",
+        "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.3)",
+      background:
+        "radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0.2) 70%)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       position: "relative",
       overflow: "hidden",
@@ -67,10 +69,10 @@ const BentoCard = ({
     {...props}
   >
     {/* Border beam animation on hover */}
-    <div className="absolute inset-0 opacity-1 group-hover:opacity-100 transition-opacity duration-300">
+    <div className="absolute inset-0 opacity-1 group-hover:opacity-100 transition-opacity duration-300 z-21">
       <BorderBeam
-        size={260}
-        duration={3.5}
+        size={100}
+        duration={2.5}
         colorFrom="#000000"
         colorTo="#000000"
         className="opacity-100"
@@ -121,7 +123,7 @@ const BentoCard = ({
         {name}
       </h3>
       <p
-        className="max-w-lg text-[#00000] font-normal"
+        className="max-w-lg text-[#f8f8f8] font-normal"
         style={{
           fontFamily: "Lato, serif",
           fontWeight: "300",

@@ -179,8 +179,14 @@ function Secondtexthero() {
               style={{ fontFamily: "Lato, serif", fontWeight: "400" }}
             >
               <span
-                className="bg-gradient-to-r from-[#ffc300] to-[#AEFC00] text-transparent bg-clip-text"
-                style={{ fontFamily: "Lato, serif", fontWeight: "700" }}
+                className="bg-gradient-to-r from-[#ffc300] to-[#AEFC00] text-transparent bg-clip-text relative inline-block"
+                style={{
+                  fontFamily: "Lato, serif",
+                  fontWeight: "700",
+                  textShadow:
+                    "0 0 15px rgba(255, 195, 0, 0.8), 0 0 30px rgba(174, 252, 0, 0.6), 0 0 45px rgba(255, 255, 255, 0.4)",
+                  animation: "pulse-glow 3s infinite ease-in-out",
+                }}
               >
                 Wizards
               </span>{" "}
@@ -189,13 +195,34 @@ function Secondtexthero() {
               <br></br>
               Making{" "}
               <span
-                className="bg-gradient-to-r from-[#AEFC00] to-[#ffc300] text-transparent bg-clip-text"
-                style={{ fontFamily: "Lato, serif", fontWeight: "900" }}
+                className="bg-gradient-to-r from-[#AEFC00] to-[#ffc300] text-transparent bg-clip-text relative inline-block"
+                style={{
+                  fontFamily: "Lato, serif",
+                  fontWeight: "900",
+                  textShadow:
+                    "0 0 15px rgba(174, 252, 0, 0.8), 0 0 30px rgba(255, 195, 0, 0.6), 0 0 45px rgba(255, 255, 255, 0.4)",
+                  animation: "pulse-glow 2.5s infinite ease-in-out alternate",
+                }}
               >
                 IMPOSSIBLE
               </span>{" "}
               a daily routine
             </h2>
+
+            {/* CSS animation for the glowing star effect */}
+            <style jsx>{`
+              @keyframes pulse-glow {
+                0% {
+                  filter: brightness(1);
+                }
+                50% {
+                  filter: brightness(1.3);
+                }
+                100% {
+                  filter: brightness(1);
+                }
+              }
+            `}</style>
           </div>
         </div>
       </div>
