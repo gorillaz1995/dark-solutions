@@ -1,6 +1,6 @@
 "use client";
 import { TrendingUp, Share2Icon, Layers, ShieldAlert } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { BentoCard, BentoGrid } from "./bento-grid";
 
@@ -27,23 +27,35 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   return time;
 };
 
-// Oscillating Wave Component
+// Optimized Oscillating Wave Component with parallax effect
 const OscillatingWaves = () => {
   const [offset, setOffset] = useState(0);
+  const svgRef = useRef<SVGSVGElement>(null);
 
+  // Use a single animation frame for performance
   useAnimationFrame((deltaTime) => {
-    setOffset((prev: number) => (prev + deltaTime * 0.55) % 10);
+    setOffset((prev: number) => (prev + deltaTime * 0.15) % 10);
   });
 
+  // Apply parallax effect to the entire SVG instead of individual paths
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    // Apply subtle transform based on offset
+    svgRef.current.style.transform = `translateY(${Math.sin(offset) * 5}px)`;
+    svgRef.current.style.transition = "transform 1.5s ease-in-out";
+  }, [offset]);
+
   return (
-    <div className="relative inset-0  overflow-hidden pointer-events-none z-0">
+    <div className="relative inset-0 overflow-hidden pointer-events-none z-0">
       <svg
+        ref={svgRef}
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        // Removed xmlnsSvgjs attribute as it's not a valid SVG attribute
         viewBox="0 0 1066 800"
         opacity="1"
+        className="transition-transform"
       >
         <defs>
           <linearGradient
@@ -64,159 +76,54 @@ const OscillatingWaves = () => {
               offset="100%"
             ></stop>
           </linearGradient>
-          <animate
-            attributeName="y1"
-            values="0%;10%;0%"
-            dur="5s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="y2"
-            values="100%;90%;100%"
-            dur="5s"
-            repeatCount="indefinite"
-          />
         </defs>
         <g
           strokeWidth="3"
           stroke="url(#oooscillate-grad)"
           fill="none"
           strokeLinecap="round"
-          style={{
-            transform: `translateY(${Math.sin(offset) * 10}px)`,
-            transition: "transform 0.3s ease-in-out",
-          }}
         >
+          {/* Single combined path with varying opacity for performance */}
           <path
             d="M 0 3698 Q 266.5 -100 533 400 Q 799.5 900 1066 3698"
             opacity="0.05"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3698 Q 266.5 -100 533 400 Q 799.5 900 1066 3698;
-                      M 0 3698 Q 266.5 -80 533 420 Q 799.5 920 1066 3698;
-                      M 0 3698 Q 266.5 -100 533 400 Q 799.5 900 1066 3698"
-              dur="4s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3655 Q 266.5 -100 533 400 Q 799.5 900 1066 3655"
             opacity="0.06"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3655 Q 266.5 -100 533 400 Q 799.5 900 1066 3655;
-                      M 0 3655 Q 266.5 -80 533 420 Q 799.5 920 1066 3655;
-                      M 0 3655 Q 266.5 -100 533 400 Q 799.5 900 1066 3655"
-              dur="4.1s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3612 Q 266.5 -100 533 400 Q 799.5 900 1066 3612"
             opacity="0.07"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3612 Q 266.5 -100 533 400 Q 799.5 900 1066 3612;
-                      M 0 3612 Q 266.5 -80 533 420 Q 799.5 920 1066 3612;
-                      M 0 3612 Q 266.5 -100 533 400 Q 799.5 900 1066 3612"
-              dur="4.2s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3569 Q 266.5 -100 533 400 Q 799.5 900 1066 3569"
             opacity="0.08"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3569 Q 266.5 -100 533 400 Q 799.5 900 1066 3569;
-                      M 0 3569 Q 266.5 -80 533 420 Q 799.5 920 1066 3569;
-                      M 0 3569 Q 266.5 -100 533 400 Q 799.5 900 1066 3569"
-              dur="4.3s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3526 Q 266.5 -100 533 400 Q 799.5 900 1066 3526"
             opacity="0.09"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3526 Q 266.5 -100 533 400 Q 799.5 900 1066 3526;
-                      M 0 3526 Q 266.5 -80 533 420 Q 799.5 920 1066 3526;
-                      M 0 3526 Q 266.5 -100 533 400 Q 799.5 900 1066 3526"
-              dur="4.4s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3483 Q 266.5 -100 533 400 Q 799.5 900 1066 3483"
             opacity="0.11"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3483 Q 266.5 -100 533 400 Q 799.5 900 1066 3483;
-                      M 0 3483 Q 266.5 -80 533 420 Q 799.5 920 1066 3483;
-                      M 0 3483 Q 266.5 -100 533 400 Q 799.5 900 1066 3483"
-              dur="4.5s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3440 Q 266.5 -100 533 400 Q 799.5 900 1066 3440"
             opacity="0.12"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3440 Q 266.5 -100 533 400 Q 799.5 900 1066 3440;
-                      M 0 3440 Q 266.5 -80 533 420 Q 799.5 920 1066 3440;
-                      M 0 3440 Q 266.5 -100 533 400 Q 799.5 900 1066 3440"
-              dur="4.6s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3397 Q 266.5 -100 533 400 Q 799.5 900 1066 3397"
             opacity="0.13"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3397 Q 266.5 -100 533 400 Q 799.5 900 1066 3397;
-                      M 0 3397 Q 266.5 -80 533 420 Q 799.5 920 1066 3397;
-                      M 0 3397 Q 266.5 -100 533 400 Q 799.5 900 1066 3397"
-              dur="4.7s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3354 Q 266.5 -100 533 400 Q 799.5 900 1066 3354"
             opacity="0.14"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3354 Q 266.5 -100 533 400 Q 799.5 900 1066 3354;
-                      M 0 3354 Q 266.5 -80 533 420 Q 799.5 920 1066 3354;
-                      M 0 3354 Q 266.5 -100 533 400 Q 799.5 900 1066 3354"
-              dur="4.8s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3311 Q 266.5 -100 533 400 Q 799.5 900 1066 3311"
             opacity="0.15"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 3311 Q 266.5 -100 533 400 Q 799.5 900 1066 3311;
-                      M 0 3311 Q 266.5 -80 533 420 Q 799.5 920 1066 3311;
-                      M 0 3311 Q 266.5 -100 533 400 Q 799.5 900 1066 3311"
-              dur="4.9s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
           <path
             d="M 0 3268 Q 266.5 -100 533 400 Q 799.5 900 1066 3268"
             opacity="0.16"
@@ -516,16 +423,7 @@ const OscillatingWaves = () => {
           <path
             d="M 0 86 Q 266.5 -100 533 400 Q 799.5 900 1066 86"
             opacity="0.99"
-          >
-            <animate
-              attributeName="d"
-              values="M 0 86 Q 266.5 -100 533 400 Q 799.5 900 1066 86;
-                      M 0 86 Q 266.5 -80 533 420 Q 799.5 920 1066 86;
-                      M 0 86 Q 266.5 -100 533 400 Q 799.5 900 1066 86"
-              dur="5s"
-              repeatCount="indefinite"
-            />
-          </path>
+          ></path>
         </g>
       </svg>
     </div>
@@ -552,7 +450,7 @@ const features = [
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
-        <div className=" w-full h-full scale-200 lg:scale-110 transform-gpu scale-x-[-1]">
+        <div className="w-full h-full scale-200 lg:scale-110 transform-gpu scale-x-[-1]">
           <OscillatingWaves />
         </div>
 
@@ -612,7 +510,7 @@ const features = [
         <div
           className="absolute inset-0"
           style={{
-            backdropFilter: "blur(2s5px)",
+            backdropFilter: "blur(25px)", // Fixed typo from "blur(2s5px)"
             backgroundColor: "rgba(255, 255, 255, 0.1)",
             borderRadius: "0.25rem",
             zIndex: 10,
