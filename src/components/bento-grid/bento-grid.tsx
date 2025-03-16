@@ -41,8 +41,6 @@ const BentoCard = ({
   className,
   background,
 
-  description,
-
   style,
   ...props
 }: BentoCardProps) => (
@@ -55,9 +53,9 @@ const BentoCard = ({
     )}
     style={{
       boxShadow:
-        "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.3)",
+        "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.3)", // Changed to a golden-orange shade
       background:
-        "radial-gradient(circle, rgba(40, 20, 10, 0.2) 0%, rgba(255, 200, 150, 0.15) 70%)",
+        "radial-gradient(circle, rgba(40, 20, 10, 0.2) 0%, rgba(255, 200, 150, 0.15) 90%)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       position: "relative",
       overflow: "hidden",
@@ -66,7 +64,7 @@ const BentoCard = ({
       transform: "translateZ(0)",
       WebkitTransform: "translateZ(0)", // Safari support
       // Prevent Safari flickering during animations
-      WebkitBackfaceVisibility: "hidden",
+
       WebkitPerspective: 1000,
       ...style,
     }}
@@ -113,17 +111,6 @@ const BentoCard = ({
       >
         {name}
       </h3>
-      <p
-        className="max-w-lg text-[#f8f8f8] font-normal"
-        style={{
-          fontFamily: "Lato, -apple-system, BlinkMacSystemFont, sans-serif", // Add system fonts as fallback
-          fontWeight: "300",
-          filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
-          WebkitFontSmoothing: "antialiased", // Improve text rendering on Safari
-        }}
-      >
-        {description}
-      </p>
     </div>
   </div>
 );

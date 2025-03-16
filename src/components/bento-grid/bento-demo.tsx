@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 import { BentoCard, BentoGrid } from "./bento-grid";
 
-// Custom hook for animation frame
+// Custom hook for animation frame with browser compatibility improvements
 const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   const [time, setTime] = useState(0);
 
@@ -27,27 +27,35 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   return time;
 };
 
-// Optimized Oscillating Wave Component with parallax effect
+// Cross-browser compatible Oscillating Wave Component
 const OscillatingWaves = () => {
   const [offset, setOffset] = useState(0);
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Use a single animation frame for performance
   useAnimationFrame((deltaTime) => {
     setOffset((prev: number) => (prev + deltaTime * 0.15) % 10);
   });
 
-  // Apply parallax effect to the entire SVG instead of individual paths
+  // Apply cross-browser compatible transform
   useEffect(() => {
     if (!svgRef.current) return;
 
-    // Apply subtle transform based on offset
-    svgRef.current.style.transform = `translateY(${Math.sin(offset) * 5}px)`;
-    svgRef.current.style.transition = "transform 1.5s ease-in-out";
+    // Use CSS transform with will-change for better performance across browsers
+    const translateY = Math.sin(offset) * 50;
+    svgRef.current.style.transform = `translate3d(0, ${translateY}px, 0)`;
+    svgRef.current.style.willChange = "transform";
+    svgRef.current.style.transition =
+      "transform .35s cubic-bezier(0.25, 0.1, 0.25, 1)";
   }, [offset]);
 
   return (
-    <div className="relative inset-0 overflow-hidden pointer-events-none z-0">
+    <div
+      ref={containerRef}
+      className="relative inset-0 overflow-hidden pointer-events-none z-0"
+      style={{ WebkitOverflowScrolling: "touch" }} // Improve scrolling on Safari
+    >
       <svg
         ref={svgRef}
         xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +64,12 @@ const OscillatingWaves = () => {
         viewBox="0 0 1066 800"
         opacity="1"
         className="transition-transform"
+        style={{
+          backfaceVisibility: "hidden", // Prevent flickering in Safari
+          WebkitBackfaceVisibility: "hidden",
+          WebkitTransformStyle: "preserve-3d",
+          transformStyle: "preserve-3d",
+        }}
       >
         <defs>
           <linearGradient
@@ -439,18 +453,25 @@ const features = [
     className: "col-span-3 lg:col-span-1",
     background: (
       <div className="absolute inset-0">
-        {/* Enhanced oscillating waves with blur effect for entire container */}
+        {/* Cross-browser compatible blur effect */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(25px)",
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(1px)",
+            WebkitBackdropFilter: "blur(1px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.15)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
-            zIndex: 10,
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
-        <div className="w-full h-full scale-200 lg:scale-110 transform-gpu scale-x-[-1]">
+        <div
+          className="w-full h-full transform-gpu scale-x-[-1]"
+          style={{
+            transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(2) scaleX(-1)", // Safari support
+            position: "relative",
+          }}
+        >
           <OscillatingWaves />
         </div>
 
@@ -475,18 +496,25 @@ const features = [
     className: "col-span-3 lg:col-span-2",
     background: (
       <div className="absolute inset-0">
-        {/* Enhanced oscillating waves with blur effect for entire container */}
+        {/* Cross-browser compatible blur effect */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(25px)",
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(1px)",
+            WebkitBackdropFilter: "blur(1px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.2)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
-            zIndex: 10,
           }}
         />
         {/* Enhanced oscillating waves for wider container */}
-        <div className="absolute inset-[-12] scale-85 w-full transform-gpu scale-x-[-1]">
+        <div
+          className="absolute inset-[-12] w-full transform-gpu scale-x-[-1]"
+          style={{
+            transform: "scale(1.5) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(1.25) scaleX(-1)", // Safari support
+            position: "relative",
+          }}
+        >
           <OscillatingWaves />
         </div>
 
@@ -506,18 +534,24 @@ const features = [
     className: "col-span-3 lg:col-span-2",
     background: (
       <div className="absolute inset-0">
-        {/* Enhanced oscillating waves with blur effect for entire container */}
+        {/* Cross-browser compatible blur effect */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(25px)", // Fixed typo from "blur(2s5px)"
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(1px)",
+            WebkitBackdropFilter: "blur(1px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.17)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
-            zIndex: 10,
           }}
         />
 
-        <div className="relative w-full h-full scale-[1.15] transform-gpu z-[1]">
+        <div
+          className="relative w-full h-full transform-gpu z-[1]"
+          style={{
+            transform: "scale(1.15)", // Use standard transform for Firefox
+            WebkitTransform: "scale(1.15)", // Safari support
+          }}
+        >
           <OscillatingWaves />
         </div>
 
@@ -538,18 +572,24 @@ const features = [
     className: "col-span-3 lg:col-span-1",
     background: (
       <div className="absolute inset-0">
-        {/* Enhanced oscillating waves with blur effect for entire container */}
+        {/* Cross-browser compatible blur effect */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(25px)",
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(1px)",
+            WebkitBackdropFilter: "blur(1px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.19)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
-            zIndex: 10,
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
-        <div className="absolute inset-0 scale-110 transform-gpu scale-x-[-1]">
+        <div
+          className="absolute inset-0 transform-gpu scale-x-[-1]"
+          style={{
+            transform: "scale(1.1) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(1.1) scaleX(-1)", // Safari support
+          }}
+        >
           <OscillatingWaves />
         </div>
         <div className="absolute inset-0 flex items-center justify-center text-center text-6xl xl:text-4xl 2xl:text-7xl pb-50 lg:pb-30 z-10">
