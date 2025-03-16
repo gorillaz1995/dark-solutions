@@ -1,27 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
-
-// Import Particles component lazily to defer its loading
-const Particles = lazy(() =>
-  import("./magicui/particles").then((mod) => ({ default: mod.Particles }))
-);
+import React, { useState, useEffect, useMemo } from "react";
 
 /**
- * Secondtexthero component - A 3D glass section with parallax effects and wave patterns
- * Optimized for performance with reduced complexity and deferred loading of heavy elements
- * Features simplified wave effect with improved rendering performance
+ * Secondtexthero component - A 3D glass section with parallax effects
+ * Optimized for performance with reduced complexity
  * Implements best practices for reducing Largest Contentful Paint (LCP)
  */
 function Secondtexthero() {
   // Track mouse position for parallax effects
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // Track if we're on a mobile device
-  const [isMobile, setIsMobile] = useState(false);
-  // Animation time for wave movement
-
-  // Track if component is mounted to avoid unnecessary renders
-  const [isMounted, setIsMounted] = useState(false);
 
   // Simplified wave pattern - reduced complexity for better performance
   const wavePatternSVG = useMemo(() => {
@@ -45,17 +33,6 @@ function Secondtexthero() {
   }, [wavePatternSVG]);
 
   useEffect(() => {
-    // Mark component as mounted
-    setIsMounted(true);
-
-    // Check if we're on a mobile device
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Initial check
-    checkMobile();
-
     // Function to handle mouse movement and update position state
     const handleMouseMove = (e: MouseEvent) => {
       // Calculate normalized mouse position values between -0.5 and 0.5
@@ -66,18 +43,10 @@ function Secondtexthero() {
 
     // Add event listeners
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("resize", checkMobile);
 
-    // Animate waves over time - using less frequent updates for better performance
-    const animationFrame = requestAnimationFrame(function animate() {
-      requestAnimationFrame(animate);
-    });
-
-    // Clean up event listeners and animation on component unmount
+    // Clean up event listeners on component unmount
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", checkMobile);
-      cancelAnimationFrame(animationFrame);
     };
   }, []);
 
@@ -85,20 +54,6 @@ function Secondtexthero() {
     <div className="w-full h-[30vh] xl:h-[33vh]">
       {/* 3D Glass Section */}
       <div className="relative">
-        {/* Particles background - loaded lazily after main content */}
-        {isMounted && (
-          <Suspense fallback={null}>
-            <div className="absolute inset-0 z-40 opacity-70">
-              <Particles
-                className="absolute inset-0"
-                quantity={isMobile ? 20 : 50}
-                color="#ffd60a"
-                staticity={70} // Increased staticity for better performance
-              />
-            </div>
-          </Suspense>
-        )}
-
         {/* Gradient overlay for depth - simplified for better performance */}
         <div
           className="absolute inset-0 bg-gradient-to-b from-yellow-400 via-yellow-300 to-transparent opacity-40"
@@ -118,7 +73,7 @@ function Secondtexthero() {
 
         {/* Glass panel with parallax effect - simplified for better performance */}
         <div
-          className="relative backdrop-blur-md border-t border-neutral-800/30 overflow-hidden"
+          className="relative backdrop-blur-md border-t border-neutral-800/30 overflow-hidden smoke-waves"
           style={{
             backgroundImage:
               "linear-gradient(to top, #495057, #434950, #3d4248, #383c41, #32353a)",
@@ -128,6 +83,10 @@ function Secondtexthero() {
             transformOrigin: "center top",
           }}
         >
+          {/* Smoke effect layers for dynamic background */}
+          <div className="smoke-layer"></div>
+          <div className="smoke-accent"></div>
+
           {/* Simplified highlight effect */}
           <div
             className="absolute inset-0 opacity-20"

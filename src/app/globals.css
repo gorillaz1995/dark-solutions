@@ -111,3 +111,155 @@
     #000000
   );
 }
+
+/* Smoke-like waves background animation for Secondtexthero component
+ * Creates a dynamic, smoky effect with dark shades of grey, black and silver tones
+ * Optimized for performance with reduced complexity and hardware acceleration
+ */
+/* Smoke-like waves background animation for Secondtexthero component
+ * Creates a dynamic, wave-like effect with smoky textures in dark shades
+ * Optimized for performance with hardware acceleration and SVG-based waves
+ */
+.smoke-waves {
+  position: relative;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+/* Primary wave layer using SVG background */
+.smoke-waves::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwMCAzMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNtb2tlLWdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9InJnYmEoNDAsIDQwLCA0MCwgMC4zKSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9InJnYmEoNzAsIDcwLCA3MCwgMC40KSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSJyZ2JhKDMwLCAzMCwgMzAsIDAuMykiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMCwxNTAgQzE1MCw4MCAzNTAsMjIwIDUwMCwxNTAgQzY1MCw4MCA4NTAsMjIwIDEwMDAsMTUwIEwxMDAwLDMwMCBMMCwzMDAgWiIgZmlsbD0idXJsKCNzbW9rZS1ncmFkaWVudCkiIC8+Cjwvc3ZnPg==");
+  background-size: 1000px 100%;
+  background-repeat: repeat-x;
+  opacity: 0.7;
+  z-index: 1;
+  animation: wave 25s linear infinite;
+  will-change: transform;
+}
+
+/* Secondary wave layer with different speed and opacity */
+.smoke-waves::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwMCAzMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InNtb2tlLWdyYWRpZW50LWFsdCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSJyZ2JhKDgwLCA4MCwgODAsIDAuMikiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSJyZ2JhKDEwMCwgMTAwLCAxMDAsIDAuMykiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0icmdiYSg2MCwgNjAsIDYwLCAwLjIpIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHBhdGggZD0iTTAsMTgwIEMxMDAsMTIwIDI1MCwyMDAgNDAwLDE1MCBDNTU1LDEwMCA3MDUsMjIwIDEwMDAsMTgwIEwxMDAwLDMwMCBMMCwzMDAgWiIgZmlsbD0idXJsKCNzbW9rZS1ncmFkaWVudC1hbHQpIiAvPgo8L3N2Zz4=");
+  background-size: 1200px 100%;
+  background-repeat: repeat-x;
+  opacity: 0.5;
+  z-index: 2;
+  animation: wave-alt 18s linear infinite;
+  filter: blur(3px);
+  will-change: transform;
+}
+
+/* Layered smoke effect for more depth */
+.smoke-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(40, 40, 40, 0.1) 0%,
+    rgba(70, 70, 70, 0.2) 50%,
+    rgba(30, 30, 30, 0.1) 100%
+  );
+  opacity: 0.7;
+  filter: blur(4px);
+  animation: smoke-swell 15s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  z-index: 3;
+}
+
+/* Silver/ash accent layer */
+.smoke-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 40%,
+      rgba(192, 192, 192, 0.05) 0%,
+      rgba(128, 128, 128, 0.05) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(169, 169, 169, 0.05) 0%,
+      rgba(105, 105, 105, 0.05) 30%,
+      transparent 60%
+    );
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  animation: smoke-accent 18s ease-in-out infinite alternate;
+  will-change: opacity;
+  z-index: 4;
+}
+
+/* Wave animation - horizontal movement */
+@keyframes wave {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1000px;
+  }
+}
+
+/* Secondary wave animation - different speed */
+@keyframes wave-alt {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1200px;
+  }
+}
+
+/* Vertical swell animation for smoke layer */
+@keyframes smoke-swell {
+  0%,
+  100% {
+    transform: translateY(3%) scale(1.05);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-2%) scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+/* Opacity animation for accent layer */
+@keyframes smoke-accent {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* Media query for reduced animations on mobile devices to improve performance */
+@media (prefers-reduced-motion: reduce) {
+  .smoke-waves::before,
+  .smoke-waves::after,
+  .smoke-layer,
+  .smoke-accent {
+    animation: none;
+  }
+}

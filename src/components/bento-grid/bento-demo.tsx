@@ -1,6 +1,6 @@
 "use client";
 import { TrendingUp, Share2Icon, Layers, ShieldAlert } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 import { BentoCard, BentoGrid } from "./bento-grid";
@@ -201,48 +201,25 @@ const features = [
 // Lazy load the BentoDemo component to reduce initial bundle size
 const BentoDemo = () => {
   // Use intersection observer to load cards only when they come into view
-  const [isVisible, setIsVisible] = useState(false);
-  const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (gridRef.current) {
-      observer.observe(gridRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  // Set isVisible to true by default since we're not using IntersectionObserver anymore
 
   return (
-    <div ref={gridRef}>
-      {isVisible ? (
-        <BentoGrid>
-          {features.map((feature, idx) => (
-            <BentoCard
-              key={idx}
-              name={feature.name}
-              className={feature.className}
-              background={feature.background}
-              href={feature.href || "#"} // Provide a default value for href
-              cta={feature.cta || ""} // Provide a default empty string for cta
-              style={feature.style}
-            />
-          ))}
-        </BentoGrid>
-      ) : (
-        <div className="w-full h-[50vh] flex items-center justify-center">
-          <div className="animate-pulse bg-orange-100/20 rounded-lg w-full h-full"></div>
-        </div>
-      )}
+    <div>
+      {/* Render BentoGrid directly without conditional visibility check */}
+      <BentoGrid>
+        {features.map((feature, idx) => (
+          <BentoCard
+            key={idx}
+            name={feature.name}
+            className={feature.className}
+            background={feature.background}
+            href={feature.href || "#"} // Provide a default value for href
+            cta={feature.cta || ""} // Provide a default empty string for cta
+            style={feature.style}
+          />
+        ))}
+      </BentoGrid>
     </div>
   );
 };
