@@ -3,10 +3,15 @@
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 1200px;
-  margin: 1px auto;
-  overflow: hidden;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .printing-service-container {
   position: relative;
   background-image: linear-gradient(
@@ -25,20 +30,20 @@
     #495057
   );
   border-radius: 15px;
-  padding: 21px;
+  padding: 1.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: visible;
   z-index: 1;
   font-family: "Lato", sans-serif;
   color: #f7f7f7;
+  width: 100%;
+  max-width: 1200px;
 }
-
-/* Media query for larger screens */
 
 /* Typography */
 .service-title {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  margin-bottom: 1.5rem;
   color: #f7f7f7;
   text-align: center;
   position: relative;
@@ -46,13 +51,14 @@
 }
 
 .service-description {
-  margin-top: 40px;
+  margin-top: 2rem;
   text-align: center;
+  width: 100%;
 }
 
 .service-description p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  margin-bottom: 1.25rem;
   color: #f7f7f7;
   font-family: "Lato", sans-serif;
 }
@@ -61,34 +67,37 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: clamp(0.5rem, 2vw, 1.25rem);
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .service-description li {
   background: linear-gradient(135deg, #ff8000, #ff9a40);
   color: #f7f7f7;
-  padding: 10px 20px;
+  padding: 0.5rem 1rem;
   border-radius: 30px;
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(255, 128, 0, 0.3);
   font-family: "Lato", sans-serif;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  margin-bottom: 0.5rem;
 }
 
 /* Printer component */
 .printer-component {
   position: relative;
-  width: 80%;
+  width: 100%;
   max-width: 500px;
-  height: 300px;
+  height: clamp(200px, 40vh, 300px);
   margin: 0 auto;
 }
 
 .printer-top {
   position: absolute;
   width: 100%;
-  height: 40px;
+  height: 13%;
   background: linear-gradient(to bottom, #555, #333);
   border-radius: 10px 10px 0 0;
   top: 0;
@@ -98,16 +107,16 @@
 .printer-body {
   position: absolute;
   width: 100%;
-  height: 200px;
+  height: 67%;
   background: linear-gradient(to bottom, #444, #222);
-  top: 40px;
+  top: 13%;
   z-index: 1;
 }
 
 .printer-tray {
   position: absolute;
   width: 80%;
-  height: 20px;
+  height: 7%;
   background: #333;
   bottom: 0;
   left: 10%;
@@ -124,27 +133,27 @@
 }
 
 .sheet-1 {
-  width: 120px;
-  height: 80px;
-  top: 60px;
+  width: 24%;
+  height: 27%;
+  top: 20%;
   left: 50%;
   transform: translateX(-50%);
   animation: printSheet 4s infinite;
 }
 
 .sheet-2 {
-  width: 100px;
-  height: 70px;
-  top: 70px;
+  width: 20%;
+  height: 23%;
+  top: 23%;
   left: 50%;
   transform: translateX(-50%) rotate(-5deg);
   animation: printSheet 4s infinite;
 }
 
 .sheet-3 {
-  width: 110px;
-  height: 75px;
-  top: 65px;
+  width: 22%;
+  height: 25%;
+  top: 22%;
   left: 50%;
   transform: translateX(-50%) rotate(5deg);
   animation: printSheet 4s infinite;
@@ -161,30 +170,30 @@
 }
 
 .drop-1 {
-  width: 20px;
-  height: 20px;
-  top: 30px;
+  width: 4%;
+  height: 7%;
+  top: 10%;
   left: 30%;
 }
 
 .drop-2 {
-  width: 15px;
-  height: 15px;
-  top: 40px;
+  width: 3%;
+  height: 5%;
+  top: 13%;
   left: 40%;
 }
 
 .drop-3 {
-  width: 25px;
-  height: 25px;
-  top: 35px;
+  width: 5%;
+  height: 8%;
+  top: 12%;
   left: 60%;
 }
 
 .drop-4 {
-  width: 18px;
-  height: 18px;
-  top: 45px;
+  width: 3.5%;
+  height: 6%;
+  top: 15%;
   left: 70%;
 }
 
@@ -246,7 +255,7 @@
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(150px);
+    transform: translateX(-50%) translateY(150%);
     opacity: 0;
   }
 }
@@ -274,22 +283,38 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .printing-service-container {
+    padding: 1rem;
+  }
+
   .printer-component {
-    width: 90%;
+    width: 95%;
     height: 250px;
-  }
-
-  .service-title {
-    font-size: 2rem;
-  }
-
-  .service-description p {
-    font-size: 1rem;
+    max-height: 40vh;
   }
 
   .service-description ul {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .printing-service-wrapper {
+    padding: 0.5rem;
+  }
+
+  .printer-component {
+    height: 200px;
+  }
+
+  .service-description li {
+    padding: 0.4rem 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .printing-service-container {
+    padding: 2rem;
   }
 }
