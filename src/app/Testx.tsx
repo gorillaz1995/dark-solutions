@@ -14,11 +14,27 @@ import Secondtexthero from "@/components/Secondtexthero";
 import { LoadingSec } from "@/components/Loadingsec"; // Import the named export instead of default
 import { ArrowRight } from "lucide-react";
 
-// Glowing cube component with transmission material
+// Function to detect low performance devices
+const isLowPerformanceDevice = () => {
+  const ua = navigator.userAgent;
+  const isOldAndroid = /Android [1-6]/.test(ua);
+  const isOldiOS = /iPhone OS [1-9]_[0-9]/.test(ua);
+  const isOldWindows = /Windows NT [5-6]/.test(ua);
+  const isLowMemory =
+    "deviceMemory" in navigator && (navigator.deviceMemory as number) <= 2;
+  const isLowCPU =
+    "hardwareConcurrency" in navigator &&
+    (navigator.hardwareConcurrency as number) <= 2;
+
+  return isOldAndroid || isOldiOS || isOldWindows || isLowMemory || isLowCPU;
+};
+
+// Glowing cube component with transmission material or simple material based on device performance
 const GlowingCube = ({ scale }: { scale: number }) => {
   const cubeRef = useRef<THREE.Mesh>(null);
   const lightRef = useRef<THREE.PointLight>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const lowPerformance = isLowPerformanceDevice();
 
   useFrame((state, delta) => {
     if (cubeRef.current) {
@@ -51,18 +67,24 @@ const GlowingCube = ({ scale }: { scale: number }) => {
       {/* Transparent cube */}
       <mesh ref={cubeRef}>
         <boxGeometry args={[2, 2, 2]} />
-        <MeshTransmissionMaterial
-          backside
-          samples={6}
-          thickness={0.5}
-          roughness={0.05}
-          transmission={0.95}
-          ior={1.5}
-          chromaticAberration={0.06}
-          distortion={0.1}
-          distortionScale={0.3}
-          temporalDistortion={0.3}
-        />
+        {lowPerformance ? (
+          // Simple material for low performance devices
+          <meshBasicMaterial color="orange" />
+        ) : (
+          // Advanced material for high performance devices
+          <MeshTransmissionMaterial
+            backside
+            samples={6}
+            thickness={0.5}
+            roughness={0.05}
+            transmission={0.95}
+            ior={1.5}
+            chromaticAberration={0.06}
+            distortion={0.1}
+            distortionScale={0.3}
+            temporalDistortion={0.3}
+          />
+        )}
       </mesh>
     </group>
   );
