@@ -16,7 +16,6 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
   className: string;
   background: ReactNode;
 
-  description: string;
   href: string;
   cta: string;
   style?: React.CSSProperties;
@@ -55,7 +54,7 @@ const BentoCard = ({
       boxShadow:
         "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.3)", // Changed to a golden-orange shade
       background:
-        "radial-gradient(circle, rgba(40, 20, 10, 0.2) 0%, rgba(255, 200, 150, 0.15) 90%)",
+        "radial-gradient(circle, rgba(40, 20, 10, 0.2) 0%, rgba(255, 200, 150, 0.15) 120%)",
       border: "1px solid rgba(255, 255, 255, 0.1)",
       position: "relative",
       overflow: "hidden",

@@ -332,7 +332,7 @@ const Scene: React.FC = () => {
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{
               backgroundImage:
-                "radial-gradient(circle, #aefc00, #bffb00, #cef900, #ddf800, #ebf600, #f2f100, #f8ec00, #fee700, #ffde00, #ffd500, #ffcc00, #ffc300)",
+                "radial-gradient(circle, rgba(255, 128, 0, 0.8) 0%, rgba(255, 128, 0, 0.6) 50%, rgba(255, 128, 0, 0.4) 100%)",
             }}
           ></div>
         </button>

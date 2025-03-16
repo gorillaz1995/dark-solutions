@@ -479,8 +479,7 @@ const features = [
   {
     Icon: TrendingUp,
     name: "Fast doesn't mean rushed. We accelerate timelines while maintaining impeccable standards.",
-    description:
-      "In a hurry with a big project? Urgency is our specialty. We thrive when the clock is ticking.",
+
     className: "col-span-3 lg:col-span-1",
     background: (
       <div className="absolute inset-0">
@@ -490,13 +489,13 @@ const features = [
           style={{
             backdropFilter: "blur(1px)",
             WebkitBackdropFilter: "blur(1px)", // Safari support
-            backgroundColor: "rgba(255, 165, 0, 0.15)", // Changed to a warmer color (orange)
+            backgroundColor: "rgba(255, 165, 0, 0.025)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
         <div
-          className="w-full h-full transform-gpu scale-x-[-1]"
+          className="w-full h-full transform-gpu scale-x-[1]"
           style={{
             transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
             WebkitTransform: "scale(2) scaleX(-1)", // Safari support
@@ -531,9 +530,9 @@ const features = [
         <div
           className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(1px)",
-            WebkitBackdropFilter: "blur(1px)", // Safari support
-            backgroundColor: "rgba(255, 165, 0, 0.2)", // Changed to a warmer color (orange)
+            backdropFilter: "blur(5px)",
+            WebkitBackdropFilter: "blur(5px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.15)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
           }}
         />
@@ -542,14 +541,14 @@ const features = [
           className="absolute inset-[-12] w-full transform-gpu scale-x-[-1]"
           style={{
             transform: "scale(1.5) scaleX(-1)", // Use standard transform for Firefox
-            WebkitTransform: "scale(1.25) scaleX(-1)", // Safari support
+            WebkitTransform: "scale(1.2) scaleX(-1)", // Safari support
             position: "relative",
           }}
         >
           <OscillatingWaves />
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
+        <div className="absolute text-center inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
           <h1>End-to-End Mastery</h1>
         </div>
       </div>
@@ -569,15 +568,15 @@ const features = [
         <div
           className="absolute inset-0 z-10"
           style={{
-            backdropFilter: "blur(1px)",
-            WebkitBackdropFilter: "blur(1px)", // Safari support
-            backgroundColor: "rgba(255, 165, 0, 0.17)", // Changed to a warmer color (orange)
+            backdropFilter: "blur(5px)",
+            WebkitBackdropFilter: "blur(5px)", // Safari support
+            backgroundColor: "rgba(255, 165, 0, 0.23)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
           }}
         />
 
         <div
-          className="relative w-full h-full transform-gpu z-[1]"
+          className="relative w-full h-full transform-gpu z-[1] scale-x-[-1]"
           style={{
             transform: "scale(1.15)", // Use standard transform for Firefox
             WebkitTransform: "scale(1.15)", // Safari support
@@ -586,7 +585,7 @@ const features = [
           <OscillatingWaves />
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
+        <div className="absolute text-center inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
           <h1>Unlimited Capacity</h1>
         </div>
       </div>
@@ -609,16 +608,17 @@ const features = [
           style={{
             backdropFilter: "blur(1px)",
             WebkitBackdropFilter: "blur(1px)", // Safari support
-            backgroundColor: "rgba(255, 165, 0, 0.19)", // Changed to a warmer color (orange)
+            backgroundColor: "rgba(255, 165, 0, 0.05)", // Changed to a warmer color (orange)
             borderRadius: "0.25rem",
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
         <div
-          className="absolute inset-0 transform-gpu scale-x-[-1]"
+          className="w-full h-full transform-gpu scale-x-[-1]"
           style={{
-            transform: "scale(1.1) scaleX(-1)", // Use standard transform for Firefox
-            WebkitTransform: "scale(1.1) scaleX(-1)", // Safari support
+            transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(2) scaleX(-1)", // Safari support
+            position: "relative",
           }}
         >
           <OscillatingWaves />
@@ -640,7 +640,6 @@ export default function BentoDemo() {
         <BentoCard
           key={idx}
           name={feature.name}
-          description={feature.description}
           className={feature.className}
           background={feature.background}
           href={feature.href || "#"} // Provide a default value for href

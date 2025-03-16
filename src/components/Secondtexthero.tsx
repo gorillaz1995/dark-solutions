@@ -24,17 +24,37 @@ function Secondtexthero() {
     return `
       <svg width="100%" height="70%" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <filter id="wave-distortion" x="0" y="0" width="100%" height="100%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="3" seed="5" />
-            <feDisplacementMap in="SourceGraphic" scale="20" />
+          <filter id="glass-shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" />
+            <feOffset dx="2" dy="2" />
+            <feComposite operator="over" in="SourceGraphic" />
           </filter>
           <linearGradient id="glass-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.08)" />
-            <stop offset="48%" stop-color="rgba(255, 255, 255, 0.03)" />
-            <stop offset="100%" stop-color="rgba(255, 255, 255, 0.05)" />
+            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.15)" />
+            <stop offset="48%" stop-color="rgba(255, 255, 255, 0.05)" />
+            <stop offset="100%" stop-color="rgba(255, 255, 255, 0.12)" />
           </linearGradient>
+          <pattern id="light-stripes" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+            <rect width="30" height="60" fill="rgba(255, 255, 255, 0.03)" />
+            <rect x="30" width="30" height="60" fill="rgba(255, 255, 255, 0.08)" />
+          </pattern>
+          <mask id="stripe-mask">
+            <rect width="100%" height="100%" fill="white" />
+            <rect width="100%" height="100%" fill="url(#light-stripes)" opacity="0.7" />
+          </mask>
+          <filter id="inner-shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feOffset dx="-2" dy="3" />
+            <feGaussianBlur stdDeviation="4" />
+            <feComposite operator="out" in="SourceGraphic" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0" />
+            <feBlend mode="multiply" in2="SourceGraphic" />
+          </filter>
         </defs>
-        <rect width="100%" height="100%" fill="url(#glass-gradient)" filter="url(#wave-distortion)" />
+        <g filter="url(#glass-shadow)">
+          <rect width="100%" height="100%" rx="4" fill="url(#glass-gradient)" opacity="0.9" />
+          <rect width="100%" height="100%" rx="4" fill="url(#glass-gradient)" mask="url(#stripe-mask)" />
+          <rect width="100%" height="100%" rx="4" fill="none" filter="url(#inner-shadow)" />
+        </g>
       </svg>
     `;
   }, []);
@@ -175,17 +195,16 @@ function Secondtexthero() {
           <div className="max-w-7xl mx-auto py-12 md:py-32 md:px-6 text-center relative z-10">
             {/* Responsive heading with tracking for better readability */}
             <h2
-              className="text-[1.55rem] sm:text-2xl md:text-6xl mb-2 tracking-tight bg-gradient-to-br from-[#8997A6] to-[#DCFF90] text-transparent bg-clip-text"
+              className="text-[1.55rem] sm:text-2xl md:text-6xl mb-2 tracking-tight bg-gradient-to-br from-[#8997A6] to-[#ffffff] text-transparent bg-clip-text"
               style={{ fontFamily: "Lato, serif", fontWeight: "400" }}
             >
               <span
-                className="bg-gradient-to-r from-[#ffc300] to-[#AEFC00] text-transparent bg-clip-text relative inline-block"
+                className="bg-gradient-to-r from-[#FFB366] to-[#FF8000] text-transparent bg-clip-text relative inline-block"
                 style={{
                   fontFamily: "Lato, serif",
-                  fontWeight: "700",
+                  fontWeight: "900",
                   textShadow:
-                    "0 0 15px rgba(255, 195, 0, 0.8), 0 0 30px rgba(174, 252, 0, 0.6), 0 0 45px rgba(255, 255, 255, 0.4)",
-                  animation: "pulse-glow 3s infinite ease-in-out",
+                    "0 0 15px rgba(255, 128, 0, 0.8), 0 0 30px rgba(255, 128, 0, 0.6), 0 0 45px rgba(255, 128, 0, 0.4)",
                 }}
               >
                 Wizards
@@ -195,13 +214,12 @@ function Secondtexthero() {
               <br></br>
               Making{" "}
               <span
-                className="bg-gradient-to-r from-[#AEFC00] to-[#ffc300] text-transparent bg-clip-text relative inline-block"
+                className="bg-gradient-to-r from-[#FFB366] to-[#FF8000] text-transparent bg-clip-text relative inline-block"
                 style={{
                   fontFamily: "Lato, serif",
                   fontWeight: "900",
                   textShadow:
-                    "0 0 15px rgba(174, 252, 0, 0.8), 0 0 30px rgba(255, 195, 0, 0.6), 0 0 45px rgba(255, 255, 255, 0.4)",
-                  animation: "pulse-glow 2.5s infinite ease-in-out alternate",
+                    "0 0 15px rgba(255, 128, 0, 0.8), 0 0 30px rgba(255, 128, 0, 0.6), 0 0 45px rgba(255, 128, 0, 0.4)",
                 }}
               >
                 IMPOSSIBLE
