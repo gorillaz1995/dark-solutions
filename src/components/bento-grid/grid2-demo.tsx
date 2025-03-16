@@ -1,5 +1,6 @@
 import { BentoCard, BentoGrid } from "./grid2";
 import PrintingServices from "../../app/parts/main-page/categoriex/printing-service";
+import Finalxdes from "../../app/parts/main-page/human-animation/mainx/finalxdes";
 
 const features = [
   {
@@ -22,6 +23,11 @@ const features = [
     href: "/",
     cta: "",
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    content: (
+      <div>
+        <Finalxdes />
+      </div>
+    ),
     background: null,
   },
   {

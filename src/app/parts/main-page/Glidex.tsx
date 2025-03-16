@@ -1,5 +1,6 @@
 import Scndsection from "./Scndsection";
 import Grid2Demo from "@/components/bento-grid/grid2-demo";
+import Finalxdes from "./human-animation/mainx/finalxdes";
 export default function Glidex() {
   return (
     <div className="overflow-hidden ">
@@ -11,6 +12,7 @@ export default function Glidex() {
       <div className="py-10 bg-gradient-to-r from-[#AEFC00] to-[#ffc300]">
         <Grid2Demo />
       </div>
+      <Finalxdes />
     </div>
   );
 }
