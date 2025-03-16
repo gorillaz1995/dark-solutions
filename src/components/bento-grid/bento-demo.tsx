@@ -27,28 +27,59 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
   return time;
 };
 
-// Cross-browser compatible Oscillating Wave Component
+// Cross-browser compatible Oscillating Wave Component with responsive animation
 const OscillatingWaves = () => {
   const [offset, setOffset] = useState(0);
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== "undefined" ? window.innerWidth : 0,
+    height: typeof window !== "undefined" ? window.innerHeight : 0,
+  });
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Handle window resize for responsive animations
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // Use a single animation frame for performance
   useAnimationFrame((deltaTime) => {
-    setOffset((prev: number) => (prev + deltaTime * 0.15) % 10);
+    setOffset((prev: number) => (prev + deltaTime * 0.1) % 10);
   });
 
-  // Apply cross-browser compatible transform
+  // Apply cross-browser compatible transform with responsive amplitude
   useEffect(() => {
     if (!svgRef.current) return;
 
-    // Use CSS transform with will-change for better performance across browsers
-    const translateY = Math.sin(offset) * 50;
-    svgRef.current.style.transform = `translate3d(0, ${translateY}px, 0)`;
+    // Calculate amplitude based on screen size
+    // Micro-animation for small screens, more pronounced for larger displays
+    const getResponsiveAmplitude = () => {
+      if (windowSize.width < 640) return 5; // Very small movement for mobile
+      if (windowSize.width < 768) return 10; // Small movement for tablets
+      if (windowSize.width < 1024) return 20; // Medium for small desktops
+      return 30; // Larger movement for big screens
+    };
+
+    const amplitude = getResponsiveAmplitude();
+
+    // Smaller X movement for better visual effect
+    const translateY = Math.sin(offset) * amplitude;
+    const translateX = Math.cos(offset) * (amplitude * 0.3);
+
+    // Apply smooth transform with reduced movement on smaller screens
+    svgRef.current.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
     svgRef.current.style.willChange = "transform";
     svgRef.current.style.transition =
       "transform .35s cubic-bezier(0.25, 0.1, 0.25, 1)";
-  }, [offset]);
+  }, [offset, windowSize]);
 
   return (
     <div

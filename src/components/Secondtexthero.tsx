@@ -22,7 +22,7 @@ function Secondtexthero() {
   const wavePatternSVG = useMemo(() => {
     // Create a more complex wave pattern with multiple sine waves
     return `
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100%" height="70%" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="wave-distortion" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.01 0.05" numOctaves="3" seed="5" />
@@ -80,7 +80,7 @@ function Secondtexthero() {
   }, []);
 
   return (
-    <div className="w-full lg:h-[35vh]">
+    <div className="w-full h-[30vh] xl:h-[33vh]">
       {/* 3D Glass Section */}
       <div className="relative">
         {/* Particles background */}
