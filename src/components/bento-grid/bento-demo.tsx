@@ -1,6 +1,6 @@
 "use client";
 import { TrendingUp, Share2Icon, Layers, ShieldAlert } from "lucide-react";
-import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState, useRef } from "react";
 import dynamic from "next/dynamic";
 
 import { BentoCard, BentoGrid } from "./bento-grid";
@@ -58,21 +58,17 @@ const features = [
             borderRadius: "0.25rem",
           }}
         />
-        {/* Lazy load oscillating waves with Suspense */}
-        <Suspense
-          fallback={<div className="w-full h-full bg-orange-100/10"></div>}
+        {/* Oscillating waves with loading fallback */}
+        <div
+          className="w-full h-full transform-gpu scale-x-[1]"
+          style={{
+            transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(2) scaleX(-1)", // Safari support
+            position: "relative",
+          }}
         >
-          <div
-            className="w-full h-full transform-gpu scale-x-[1]"
-            style={{
-              transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
-              WebkitTransform: "scale(2) scaleX(-1)", // Safari support
-              position: "relative",
-            }}
-          >
-            <OscillatingWaves />
-          </div>
-        </Suspense>
+          <OscillatingWaves />
+        </div>
 
         {/* Wrapper div for the animation */}
         <div className="absolute inset-0 flex items-center justify-center text-center text-6xl xl:text-4xl 2xl:text-7xl pb-50 lg:pb-30 z-10">
@@ -106,20 +102,16 @@ const features = [
           }}
         />
         {/* Enhanced oscillating waves for wider container */}
-        <Suspense
-          fallback={<div className="w-full h-full bg-orange-100/10"></div>}
+        <div
+          className="absolute inset-[-12] w-full transform-gpu scale-x-[-1]"
+          style={{
+            transform: "scale(1.5) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(1.2) scaleX(-1)", // Safari support
+            position: "relative",
+          }}
         >
-          <div
-            className="absolute inset-[-12] w-full transform-gpu scale-x-[-1]"
-            style={{
-              transform: "scale(1.5) scaleX(-1)", // Use standard transform for Firefox
-              WebkitTransform: "scale(1.2) scaleX(-1)", // Safari support
-              position: "relative",
-            }}
-          >
-            <OscillatingWaves />
-          </div>
-        </Suspense>
+          <OscillatingWaves />
+        </div>
 
         <div className="absolute text-center inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
           <h1>End-to-End Mastery</h1>
@@ -148,19 +140,15 @@ const features = [
           }}
         />
 
-        <Suspense
-          fallback={<div className="w-full h-full bg-orange-100/10"></div>}
+        <div
+          className="relative w-full h-full transform-gpu z-[1] scale-x-[-1]"
+          style={{
+            transform: "scale(1.15)", // Use standard transform for Firefox
+            WebkitTransform: "scale(1.15)", // Safari support
+          }}
         >
-          <div
-            className="relative w-full h-full transform-gpu z-[1] scale-x-[-1]"
-            style={{
-              transform: "scale(1.15)", // Use standard transform for Firefox
-              WebkitTransform: "scale(1.15)", // Safari support
-            }}
-          >
-            <OscillatingWaves />
-          </div>
-        </Suspense>
+          <OscillatingWaves />
+        </div>
 
         <div className="absolute text-center inset-0 flex items-center justify-center text-6xl lg:text-6xl xl:text-8xl pb-60 lg:pb-30 z-10">
           <h1>Unlimited Capacity</h1>
@@ -190,20 +178,16 @@ const features = [
           }}
         />
         {/* Oscillating waves background with adjusted size for small card */}
-        <Suspense
-          fallback={<div className="w-full h-full bg-orange-100/10"></div>}
+        <div
+          className="w-full h-full transform-gpu scale-x-[-1]"
+          style={{
+            transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
+            WebkitTransform: "scale(2) scaleX(-1)", // Safari support
+            position: "relative",
+          }}
         >
-          <div
-            className="w-full h-full transform-gpu scale-x-[-1]"
-            style={{
-              transform: "scale(2) scaleX(-1)", // Use standard transform for Firefox
-              WebkitTransform: "scale(2) scaleX(-1)", // Safari support
-              position: "relative",
-            }}
-          >
-            <OscillatingWaves />
-          </div>
-        </Suspense>
+          <OscillatingWaves />
+        </div>
         <div className="absolute inset-0 flex items-center justify-center text-center text-6xl xl:text-4xl 2xl:text-7xl pb-50 lg:pb-30 z-10">
           <h1>Crisis-Ready Solutions</h1>
         </div>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
@@ -18,35 +18,6 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
   cta: string;
   style?: React.CSSProperties;
 }
-
-// Custom hook for intersection observer to detect when element is in viewport
-const useIntersectionObserver = (options = {}) => {
-  const [ref, setRef] = useState<HTMLElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasBeenVisible, setHasBeenVisible] = useState(false);
-
-  useEffect(() => {
-    if (!ref) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      const isCurrentlyVisible = entry.isIntersecting;
-      setIsVisible(isCurrentlyVisible);
-
-      // Once the element has been visible, mark it as seen
-      if (isCurrentlyVisible && !hasBeenVisible) {
-        setHasBeenVisible(true);
-      }
-    }, options);
-
-    observer.observe(ref);
-
-    return () => {
-      if (ref) observer.unobserve(ref);
-    };
-  }, [ref, options, hasBeenVisible]);
-
-  return [setRef, isVisible, hasBeenVisible] as const;
-};
 
 const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
   return (
@@ -69,15 +40,8 @@ const BentoCard = ({
   style,
   ...props
 }: BentoCardProps) => {
-  // Use intersection observer to detect when card is visible
-  const [ref] = useIntersectionObserver({
-    rootMargin: "100px",
-    threshold: 0.1,
-  });
-
   return (
     <div
-      ref={ref as React.RefCallback<HTMLDivElement>}
       key={name}
       className={cn(
         "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl",

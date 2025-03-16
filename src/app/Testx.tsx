@@ -2,11 +2,7 @@
 
 import React, { useRef, useEffect, useState, useMemo, Suspense } from "react";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
-import {
-  PerspectiveCamera,
-  MeshTransmissionMaterial,
-  Environment,
-} from "@react-three/drei";
+import { PerspectiveCamera, MeshTransmissionMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
 import Tes from "./Tes";
@@ -335,7 +331,6 @@ const Scene: React.FC = () => {
             intensity={deviceSettings.directionalLightIntensity}
             castShadow
           />
-          <Environment preset="sunset" />
 
           {/* Responsive cube size */}
           <GlowingCube scale={deviceSettings.cubeScale} />

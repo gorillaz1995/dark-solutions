@@ -140,15 +140,27 @@ function Secondtexthero() {
           <div className="max-w-7xl mx-auto py-12 md:py-32 md:px-6 text-center relative z-10">
             {/* Responsive heading with tracking for better readability */}
             <h2
-              className="text-[1.55rem] sm:text-2xl md:text-6xl mb-2 tracking-tight bg-gradient-to-br from-[#8997A6] to-[#ffffff] text-transparent bg-clip-text"
-              style={{ fontFamily: "Lato, serif", fontWeight: "400" }}
+              className="text-[1.55rem] sm:text-2xl md:text-6xl mb-2 tracking-tight text-transparent"
+              style={{
+                fontFamily: "Lato, serif",
+                fontWeight: "400",
+                background:
+                  "linear-gradient(to bottom right, #8997A6, #ffffff)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+              }}
             >
               <span
-                className="bg-gradient-to-r from-[#FFB366] to-[#FF8000] text-transparent bg-clip-text relative inline-block"
+                className="relative inline-block text-transparent"
                 style={{
                   fontFamily: "Lato, serif",
                   fontWeight: "900",
+                  background: "linear-gradient(to right, #FFB366, #FF8000)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                   textShadow: "0 0 15px rgba(255, 128, 0, 0.5)",
+                  willChange: "transform", // Optimize for GPU acceleration
                 }}
               >
                 Wizards
@@ -158,30 +170,22 @@ function Secondtexthero() {
               <br></br>
               Making{" "}
               <span
-                className="bg-gradient-to-r from-[#FFB366] to-[#FF8000] text-transparent bg-clip-text relative inline-block"
+                className="relative inline-block text-transparent"
                 style={{
                   fontFamily: "Lato, serif",
                   fontWeight: "900",
+                  background: "linear-gradient(to right, #FFB366, #FF8000)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
                   textShadow: "0 0 15px rgba(255, 128, 0, 0.5)",
+                  willChange: "transform", // Optimize for GPU acceleration
                 }}
               >
                 IMPOSSIBLE
               </span>{" "}
               a daily routine
             </h2>
-
-            {/* Simplified CSS animation for better performance */}
-            <style jsx>{`
-              @keyframes pulse-glow {
-                0%,
-                100% {
-                  filter: brightness(1);
-                }
-                50% {
-                  filter: brightness(1.2);
-                }
-              }
-            `}</style>
           </div>
         </div>
       </div>
