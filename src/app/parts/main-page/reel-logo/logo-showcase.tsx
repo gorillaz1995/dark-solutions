@@ -86,9 +86,25 @@ export default function LogoShowcase() {
         <h2 className="showcase-title">Trusted by 69+ Clients</h2>
 
         <div className="logo-carousel-container">
-          <div className="logo-carousel animate-scroll">
+          <div
+            className="logo-carousel animate-scroll"
+            // Add webkit-overflow-scrolling for smooth scrolling on iOS
+            style={{
+              WebkitOverflowScrolling: "touch",
+              willChange: "transform", // Optimize for GPU acceleration
+              transform: "translate3d(0,0,0)", // Force hardware acceleration
+            }}
+          >
             {duplicatedLogos.map((logo, index) => (
-              <div key={`${logo.id}-${index}`} className="logo-item">
+              <div
+                key={`${logo.id}-${index}`}
+                className="logo-item"
+                // Ensure proper rendering on iOS
+                style={{
+                  WebkitTransform: "translateZ(0)",
+                  transform: "translateZ(0)",
+                }}
+              >
                 <Image
                   src={logo.src}
                   alt={logo.alt}
@@ -96,6 +112,17 @@ export default function LogoShowcase() {
                   height={64}
                   className="logo-image"
                   priority={index < 6} // Prioritize loading for first 6 logos
+                  // Improve SVG rendering on iOS
+                  style={{
+                    WebkitBackfaceVisibility: "hidden",
+                    backfaceVisibility: "hidden",
+                    WebkitPerspective: 1000,
+                    perspective: 1000,
+                    maxWidth: "100%",
+                    height: "auto",
+                    display: "block", // Prevent inline display issues
+                  }}
+                  unoptimized={true} // Prevent Next.js from optimizing SVGs which can cause issues on iOS
                 />
               </div>
             ))}

@@ -1,46 +1,52 @@
 import { BentoCard, BentoGrid } from "./grid2";
+import PrintingServices from "../../app/parts/main-page/categoriex/printing-service";
 
 const features = [
   {
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
-    href: "/",
-    cta: "Learn more",
+    name: "Printing Services",
 
+    href: "/services/printing",
+    cta: "Learn more",
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
+    // Using content prop instead of background to make PrintingServices the primary visual element
+    content: (
+      <div className="h-full w-full flex flex-col">
+        <PrintingServices />
+      </div>
+    ),
+    background: null,
   },
   {
-    name: "Full text search",
-    description: "Search through all your files in one place.",
+    name: "",
+    description: "",
     href: "/",
-    cta: "Learn more",
-
+    cta: "",
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    background: null,
   },
   {
-    name: "Multilingual",
-    description: "Supports 100+ languages and counting.",
+    name: "",
+    description: "",
     href: "/",
-    cta: "Learn more",
-
+    cta: "",
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
+    background: null,
   },
   {
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
+    name: "",
+    description: "",
     href: "/",
-    cta: "Learn more",
-
+    cta: "",
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
+    background: null,
   },
   {
-    name: "Notifications",
-    description:
-      "Get notified when someone shares a file or mentions you in a comment.",
+    name: "",
+    description: "",
     href: "/",
-    cta: "Learn more",
-
+    cta: "",
     className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+    background: null,
   },
 ];
 
@@ -49,13 +55,14 @@ export default function BentoDemo() {
     <BentoGrid className="lg:grid-rows-3">
       {features.map((feature) => (
         <BentoCard
-          key={feature.name}
+          key={feature.name || Math.random().toString()}
           name={feature.name}
           description={feature.description}
-          href={feature.href}
           cta={feature.cta}
-          className={feature.className}
-          background="defaultBackground" // Assuming a default background
+          href={feature.href}
+          className={`${feature.className} overflow-hidden`}
+          background={feature.background}
+          content={feature.content}
         />
       ))}
     </BentoGrid>
