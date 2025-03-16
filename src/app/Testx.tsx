@@ -10,31 +10,7 @@ import Secondtexthero from "@/components/Secondtexthero";
 import { LoadingSec } from "@/components/Loadingsec";
 import { ArrowRight } from "lucide-react";
 
-// Utility function for throttling
-const throttle = <T extends (...args: unknown[]) => void>(
-  fn: T,
-  delay: number
-) => {
-  let lastCall = 0;
-  return (...args: Parameters<T>) => {
-    const now = Date.now();
-    if (now - lastCall >= delay) {
-      lastCall = now;
-      fn(...args);
-    }
-  };
-};
-// Utility function for debouncing
-const debounce = <T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  delay: number
-) => {
-  let timeoutId: NodeJS.Timeout;
-  return (...args: Parameters<T>): void => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
-  };
-};
+// Lazy load components that aren't needed immediately
 
 // Glowing cube component with transmission material
 const GlowingCube = ({ scale }: { scale: number }) => {
@@ -44,30 +20,16 @@ const GlowingCube = ({ scale }: { scale: number }) => {
   // Memoize geometry to prevent recreation on each render
   const geometry = useMemo(() => new THREE.BoxGeometry(2, 2, 2), []);
 
-  // Optimize animation calculations with memoized values
-  const animationConfig = useMemo(
-    () => ({
-      rotationX: 0.1,
-      rotationY: 0.15,
-      breathFrequency: 0.5,
-      breathAmplitude: 0.02,
-    }),
-    []
-  );
-
   useFrame((state, delta) => {
     if (!cubeRef.current || !groupRef.current) return;
 
     // Smooth rotation animation
-    cubeRef.current.rotation.x += delta * animationConfig.rotationX;
-    cubeRef.current.rotation.y += delta * animationConfig.rotationY;
+    cubeRef.current.rotation.x += delta * 0.1;
+    cubeRef.current.rotation.y += delta * 0.15;
 
     // Add subtle breathing animation to the entire group
     const time = state.clock.getElapsedTime();
-    const breathFactor =
-      1 +
-      Math.sin(time * animationConfig.breathFrequency) *
-        animationConfig.breathAmplitude;
+    const breathFactor = 1 + Math.sin(time * 0.5) * 0.02;
     groupRef.current.scale.set(
       scale * breathFactor,
       scale * breathFactor,
@@ -117,85 +79,46 @@ function DynamicCameraRig() {
     []
   );
 
-  // Create worker for heavy computations if supported
-  const [worker, setWorker] = useState<Worker | null>(null);
-
   useEffect(() => {
-    // Initialize Web Worker for heavy computations if supported
-    if (typeof window !== "undefined" && window.Worker) {
-      try {
-        // Create a worker blob that handles camera position calculations
-        const workerCode = `
-          self.onmessage = function(e) {
-            const { time, pointerX, pointerY, currentPos, pointerInfluence } = e.data;
-            
-            // Animation calculations
-            const animationSpeed = 0.4;
-            const timeX = Math.sin(time * animationSpeed) * 0.2;
-            const timeY = Math.cos(time * (animationSpeed * 0.6)) * 0.15;
-            const timeZ = Math.sin(time * (animationSpeed * 0.4)) * 0.1;
-            
-            const vecX = currentPos.pos[0] + timeX + pointerX * pointerInfluence;
-            const vecY = currentPos.pos[1] + timeY + pointerY * pointerInfluence;
-            const vecZ = currentPos.pos[2] + timeZ;
-            
-            const targetLookAtX = currentPos.lookAt[0] + pointerX * 0.2;
-            const targetLookAtY = currentPos.lookAt[1] + pointerY * 0.2;
-            const targetLookAtZ = currentPos.lookAt[2];
-            
-            self.postMessage({ 
-              vec: [vecX, vecY, vecZ], 
-              targetLookAt: [targetLookAtX, targetLookAtY, targetLookAtZ] 
-            });
-          };
-        `;
+    // Throttle scroll and pointer events for better performance
+    let scrollTimeout: number;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
+      scrollTimeout = window.setTimeout(() => {
+        const scrollPos = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const maxScroll = windowHeight * 1;
+        const clampedScrollPos = Math.min(scrollPos, maxScroll);
+        const rawSection = (clampedScrollPos / windowHeight) * 2;
+        const section = Math.min(
+          Math.floor(rawSection),
+          cameraPositions.length - 1
+        );
+        setScrollSection(section);
+        scrollTimeout = 0;
+      }, 16); // ~60fps
+    };
 
-        const blob = new Blob([workerCode], { type: "application/javascript" });
-        const workerInstance = new Worker(URL.createObjectURL(blob));
-        setWorker(workerInstance);
+    let pointerTimeout: number;
+    const handlePointerMove = (event: PointerEvent | TouchEvent) => {
+      if (pointerTimeout) return;
+      pointerTimeout = window.setTimeout(() => {
+        const x =
+          "touches" in event
+            ? event.touches[0].clientX
+            : (event as PointerEvent).clientX;
+        const y =
+          "touches" in event
+            ? event.touches[0].clientY
+            : (event as PointerEvent).clientY;
 
-        return () => {
-          workerInstance.terminate();
-          URL.revokeObjectURL(blob.toString());
-        };
-      } catch (error) {
-        console.warn("Web Worker initialization failed:", error);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    // Throttled scroll handler - runs at most every 100ms
-    const handleScroll = throttle(() => {
-      const scrollPos = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const maxScroll = windowHeight * 1;
-      const clampedScrollPos = Math.min(scrollPos, maxScroll);
-      const rawSection = (clampedScrollPos / windowHeight) * 2;
-      const section = Math.min(
-        Math.floor(rawSection),
-        cameraPositions.length - 1
-      );
-      setScrollSection(section);
-    }, 100);
-    // Debounced pointer move handler - runs after 50ms of inactivity
-    const handlePointerMove = debounce((e: unknown) => {
-      // Properly type the event to handle both pointer and touch events
-      const event = e as PointerEvent | TouchEvent;
-      const x =
-        "touches" in event
-          ? event.touches[0].clientX
-          : (event as PointerEvent).clientX;
-      const y =
-        "touches" in event
-          ? event.touches[0].clientY
-          : (event as PointerEvent).clientY;
-
-      setPointerPosition({
-        x: (x / window.innerWidth) * 2 - 1,
-        y: -(y / window.innerHeight) * 2 + 1,
-      });
-    }, 50);
+        setPointerPosition({
+          x: (x / window.innerWidth) * 2 - 1,
+          y: -(y / window.innerHeight) * 2 + 1,
+        });
+        pointerTimeout = 0;
+      }, 16); // ~60fps
+    };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("pointermove", handlePointerMove, {
@@ -207,104 +130,55 @@ function DynamicCameraRig() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("touchmove", handlePointerMove);
+      window.clearTimeout(scrollTimeout);
+      window.clearTimeout(pointerTimeout);
       gl.dispose();
     };
   }, [cameraPositions.length, gl]);
 
-  // Animation frame calculations
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     const currentPos = cameraPositions[scrollSection];
+
+    // Simplified animation calculations
+    const animationSpeed = 0.4;
     const pointerInfluence = 0.3;
+    const timeX = Math.sin(time * animationSpeed) * 0.2;
+    const timeY = Math.cos(time * (animationSpeed * 0.6)) * 0.15;
+    const timeZ = Math.sin(time * (animationSpeed * 0.4)) * 0.1;
 
-    // Use Web Worker for calculations if available
-    if (worker) {
-      worker.onmessage = (e) => {
-        const { vec: vecArray, targetLookAt: targetLookAtArray } = e.data;
-        vec.set(vecArray[0], vecArray[1], vecArray[2]);
-        targetLookAt.set(
-          targetLookAtArray[0],
-          targetLookAtArray[1],
-          targetLookAtArray[2]
-        );
+    vec.set(
+      currentPos.pos[0] + timeX + pointerPosition.x * pointerInfluence,
+      currentPos.pos[1] + timeY + pointerPosition.y * pointerInfluence,
+      currentPos.pos[2] + timeZ
+    );
 
-        // Apply camera transformations
-        const distanceToTarget = camera.position.distanceTo(vec);
-        const dynamicEase = Math.max(
-          currentPos.ease,
-          distanceToTarget > 2 ? 0.02 : currentPos.ease
-        );
+    targetLookAt.set(
+      currentPos.lookAt[0] + pointerPosition.x * 0.2,
+      currentPos.lookAt[1] + pointerPosition.y * 0.2,
+      currentPos.lookAt[2]
+    );
 
-        camera.position.lerp(vec, dynamicEase);
+    const distanceToTarget = camera.position.distanceTo(vec);
+    const dynamicEase = Math.max(
+      currentPos.ease,
+      distanceToTarget > 2 ? 0.02 : currentPos.ease
+    );
 
-        camera.getWorldDirection(currentLookAt);
-        const targetDirection = targetLookAt
-          .clone()
-          .sub(camera.position)
-          .normalize();
+    camera.position.lerp(vec, dynamicEase);
 
-        const rotationEase = Math.min(dynamicEase * 1.1, 0.03);
-        currentLookAt.lerp(targetDirection, rotationEase);
-        camera.lookAt(camera.position.clone().add(currentLookAt));
-      };
+    camera.getWorldDirection(currentLookAt);
+    const targetDirection = targetLookAt
+      .clone()
+      .sub(camera.position)
+      .normalize();
 
-      // Send data to worker for processing
-      worker.postMessage({
-        time,
-        pointerX: pointerPosition.x,
-        pointerY: pointerPosition.y,
-        currentPos,
-        pointerInfluence,
-      });
-    } else {
-      // Fallback calculations if worker is not available
-      const animationSpeed = 0.4;
-      const timeX = Math.sin(time * animationSpeed) * 0.2;
-      const timeY = Math.cos(time * (animationSpeed * 0.6)) * 0.15;
-      const timeZ = Math.sin(time * (animationSpeed * 0.4)) * 0.1;
-
-      vec.set(
-        currentPos.pos[0] + timeX + pointerPosition.x * pointerInfluence,
-        currentPos.pos[1] + timeY + pointerPosition.y * pointerInfluence,
-        currentPos.pos[2] + timeZ
-      );
-
-      targetLookAt.set(
-        currentPos.lookAt[0] + pointerPosition.x * 0.2,
-        currentPos.lookAt[1] + pointerPosition.y * 0.2,
-        currentPos.lookAt[2]
-      );
-
-      const distanceToTarget = camera.position.distanceTo(vec);
-      const dynamicEase = Math.max(
-        currentPos.ease,
-        distanceToTarget > 2 ? 0.02 : currentPos.ease
-      );
-
-      camera.position.lerp(vec, dynamicEase);
-
-      camera.getWorldDirection(currentLookAt);
-      const targetDirection = targetLookAt
-        .clone()
-        .sub(camera.position)
-        .normalize();
-
-      const rotationEase = Math.min(dynamicEase * 1.1, 0.03);
-      currentLookAt.lerp(targetDirection, rotationEase);
-      camera.lookAt(camera.position.clone().add(currentLookAt));
-    }
+    const rotationEase = Math.min(dynamicEase * 1.1, 0.03);
+    currentLookAt.lerp(targetDirection, rotationEase);
+    camera.lookAt(camera.position.clone().add(currentLookAt));
   });
 
   return null;
-}
-// Define the DeviceSettings interface to fix the TypeScript error
-interface DeviceSettings {
-  cameraPosition: number[];
-  fov: number;
-  lightIntensity: number;
-  directionalLightPosition: number[];
-  directionalLightIntensity: number;
-  cubeScale: number;
 }
 
 // Main scene component that renders 3D element with transparent background
@@ -313,9 +187,6 @@ const Scene: React.FC = () => {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const glRef = useRef<THREE.WebGLRenderer | null>(null);
-  const [deviceSettings, setDeviceSettings] = useState<DeviceSettings | null>(
-    null
-  );
 
   // Memoize styles to prevent object recreation on each render
   const containerStyle = useMemo(
@@ -376,31 +247,9 @@ const Scene: React.FC = () => {
     []
   );
 
-  // Calculate device settings once on client-side
   useEffect(() => {
     setIsClient(true);
-
-    // Debounced resize handler to update device settings
-    const handleResize = debounce(() => {
-      const isMobile = window.innerWidth < 768;
-      setDeviceSettings({
-        cameraPosition: isMobile ? [0, -5, 5] : [3, 8, 6],
-        fov: isMobile ? 90 : 85,
-        lightIntensity: isMobile ? 0.8 : 0.6,
-        directionalLightPosition: isMobile ? [1, 1, 1] : [2, 2, 2],
-        directionalLightIntensity: isMobile ? 1.5 : 2,
-        cubeScale: isMobile ? 0.6 : 0.69,
-      });
-    }, 250);
-
-    // Initial calculation
-    handleResize();
-
-    // Add resize listener
-    window.addEventListener("resize", handleResize);
-
     return () => {
-      window.removeEventListener("resize", handleResize);
       if (glRef.current) {
         glRef.current.dispose();
       }
@@ -412,7 +261,7 @@ const Scene: React.FC = () => {
     console.error("WebGL context creation failed");
   };
 
-  if (!isClient || !deviceSettings) {
+  if (!isClient) {
     return <LoadingSec isLoading={true} duration={750} />;
   }
 
@@ -423,6 +272,17 @@ const Scene: React.FC = () => {
       </div>
     );
   }
+
+  // Determine device-specific settings once
+  const isMobile = window.innerWidth < 768;
+  const deviceSettings = {
+    cameraPosition: isMobile ? [0, -5, 5] : [3, 8, 6],
+    fov: isMobile ? 90 : 85,
+    lightIntensity: isMobile ? 0.8 : 0.6,
+    directionalLightPosition: isMobile ? [1, 1, 1] : [2, 2, 2],
+    directionalLightIntensity: isMobile ? 1.5 : 2,
+    cubeScale: isMobile ? 0.6 : 0.69,
+  };
 
   return (
     <div style={containerStyle} className="bg-gradient z-1">
@@ -457,7 +317,7 @@ const Scene: React.FC = () => {
           eventPrefix="client"
           camera={{
             position: [2, 0, 5],
-            fov: deviceSettings.fov,
+            fov: isMobile ? 90 : 55,
           }}
         >
           {/* Responsive camera setup */}

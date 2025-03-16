@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 /**
  * Secondtexthero component - A 3D glass section with parallax effects
@@ -12,25 +12,6 @@ function Secondtexthero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Simplified wave pattern - reduced complexity for better performance
-  const wavePatternSVG = useMemo(() => {
-    return `
-      <svg width="100%" height="70%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="glass-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.08)" />
-            <stop offset="100%" stop-color="rgba(255, 255, 255, 0.05)" />
-          </linearGradient>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#glass-gradient)" />
-      </svg>
-    `;
-  }, []);
-
-  // Preload the SVG image
-  useEffect(() => {
-    const img = new Image();
-    img.src = `data:image/svg+xml;base64,${btoa(wavePatternSVG)}`;
-  }, [wavePatternSVG]);
 
   useEffect(() => {
     // Function to handle mouse movement and update position state
@@ -55,25 +36,10 @@ function Secondtexthero() {
       {/* 3D Glass Section */}
       <div className="relative">
         {/* Gradient overlay for depth - simplified for better performance */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-yellow-400 via-yellow-300 to-transparent opacity-40"
-          style={{
-            transform: `translateY(${mousePosition.y * -2}px)`,
-          }}
-        ></div>
-
-        {/* Static background instead of dynamic SVG for better LCP */}
-        <div
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,214,10,0.1) 0%, rgba(255,128,0,0.05) 100%)",
-          }}
-        ></div>
 
         {/* Glass panel with parallax effect - simplified for better performance */}
         <div
-          className="relative backdrop-blur-md border-t border-neutral-800/30 overflow-hidden smoke-waves"
+          className="relative backdrop-blur-md border-t border-neutral-800/30 overflow-hidden"
           style={{
             backgroundImage:
               "linear-gradient(to top, #495057, #434950, #3d4248, #383c41, #32353a)",
@@ -83,18 +49,6 @@ function Secondtexthero() {
             transformOrigin: "center top",
           }}
         >
-          {/* Smoke effect layers for dynamic background */}
-          <div className="smoke-layer"></div>
-          <div className="smoke-accent"></div>
-
-          {/* Simplified highlight effect */}
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: `radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.2), transparent 70%)`,
-            }}
-          ></div>
-
           {/* Content container with responsive padding */}
           <div className="max-w-7xl mx-auto py-12 md:py-32 md:px-6 text-center relative z-10">
             {/* Responsive heading with tracking for better readability */}
