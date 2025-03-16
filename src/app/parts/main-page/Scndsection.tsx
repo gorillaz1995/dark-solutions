@@ -4,7 +4,7 @@ import BentoDemo from "@/components/bento-grid/bento-demo";
 
 function Scndsection() {
   return (
-    <div className="h-auto">
+    <div>
       <BentoDemo />
     </div>
   );

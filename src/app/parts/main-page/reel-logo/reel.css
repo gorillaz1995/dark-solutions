@@ -1,0 +1,303 @@
+body {
+  font-family: var(--font-lato), Helvetica, sans-serif;
+  /* Integrate with the global gradient background */
+  background-color: transparent;
+}
+
+/* Base styles */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
+  --radius: 0.5rem;
+  /* Add fade edge variables for the background transition */
+}
+
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+}
+
+/* Background integration with global gradient */
+.bg-integrated {
+  position: relative;
+  background: linear-gradient(
+    to bottom,
+    #495057,
+    #454c53,
+    #41474e,
+    #3d434a,
+    #393f46,
+    #34383f,
+    #303238,
+    #2b2c31,
+    #232226,
+    #1b191b,
+    #110f10,
+    #000000
+  );
+  overflow: hidden;
+}
+
+/* Responsive adjustments for the fade effect */
+@media (min-width: 768px) {
+  :root {
+    --fade-edge-width: 80px;
+    --fade-edge-opacity: 0.9;
+  }
+}
+
+/* Logo Showcase Styles */
+.logo-showcase {
+  width: 100%;
+  background-color: black;
+  padding: 0; /* Removed top and bottom padding */
+  height: auto; /* Auto height based on content */
+  min-height: fit-content; /* Ensures content is fully visible */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* This ensures the showcase is 5% taller than its content */
+.logo-showcase > * {
+  margin: 1.15% 0; /* Adding 2.5% margin top and bottom to create 5% extra space */
+}
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  max-width: 100%;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+.showcase-title {
+  color: white;
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: thin;
+  margin-bottom: 1.35rem;
+}
+
+@media (min-width: 768px) {
+  .showcase-title {
+    font-size: 1.375rem;
+  }
+}
+
+/* Carousel styles */
+.logo-carousel-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Add edge blur effects to create emergence effect */
+.logo-carousel-container::before,
+.logo-carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Left edge blur */
+.logo-carousel-container::before {
+  left: 0;
+}
+
+/* Right edge blur */
+.logo-carousel-container::after {
+  right: 0;
+}
+
+.logo-carousel {
+  display: flex;
+  animation: scroll 30s linear infinite;
+  width: fit-content;
+}
+
+.logo-item {
+  flex: 0 0 auto;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  position: relative;
+  /* Add emergence animation */
+  animation: emerge 1.5s ease-out;
+}
+
+/* Emergence animation for items */
+@keyframes emerge {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.logo-image {
+  max-height: 100%;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s, filter 0.3s;
+  /* Add subtle shadow to enhance emergence effect */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-image:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+  transform: scale(1.1);
+}
+
+/* Keyframes for animations */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Animation classes */
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
+
+/* Border radius utilities */
+.rounded-lg {
+  border-radius: var(--radius);
+}
+
+.rounded-md {
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.rounded-sm {
+  border-radius: calc(var(--radius) - 4px);
+}
+
+/* Color utilities based on CSS variables */
+.bg-background {
+  background-color: hsl(var(--background));
+}
+
+.text-foreground {
+  color: hsl(var(--foreground));
+}
+
+.border-border {
+  border-color: hsl(var(--border));
+}
+
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-secondary {
+  background-color: hsl(var(--secondary));
+}
+
+.text-secondary-foreground {
+  color: hsl(var(--secondary-foreground));
+}
+
+/* Responsive utilities */
+@media (min-width: 768px) {
+  .logo-item {
+    padding: 0 3rem;
+  }
+
+  /* Adjust blur width for larger screens */
+  .logo-carousel-container::before,
+  .logo-carousel-container::after {
+    width: 80px;
+  }
+}

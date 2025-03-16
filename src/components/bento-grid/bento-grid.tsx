@@ -1,19 +1,15 @@
 "use client";
 import React from "react";
 
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-
-import { cn } from "@/lib/utils";
-
-interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
-  children: ReactNode;
+interface BentoGridProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
   className?: string;
 }
 
-interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
+interface BentoCardProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
   className: string;
-  background: ReactNode;
+  background: React.ReactNode;
   href: string;
   cta: string;
   style?: React.CSSProperties;
@@ -22,10 +18,9 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
 const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
   return (
     <div
-      className={cn(
-        "w-[90%] sm:w-[85%] md:w-[80%] lg:w-[85%] grid auto-rows-[25rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 lg:px-20 mx-auto",
-        className
-      )}
+      className={`w-[90%] sm:w-[85%] md:w-[80%] lg:w-[85%] grid auto-rows-[25rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 lg:px-20 mx-auto ${
+        className || ""
+      }`}
       {...props}
     >
       {children}
@@ -43,10 +38,9 @@ const BentoCard = ({
   return (
     <div
       key={name}
-      className={cn(
-        "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl",
-        className
-      )}
+      className={`group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl ${
+        className || ""
+      }`}
       style={{
         boxShadow:
           "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.3)", // Golden-orange shade

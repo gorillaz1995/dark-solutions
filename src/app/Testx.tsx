@@ -8,7 +8,6 @@ import * as THREE from "three";
 import Tes from "./Tes";
 import Secondtexthero from "@/components/Secondtexthero";
 import { LoadingSec } from "@/components/Loadingsec";
-import { ArrowRight } from "lucide-react";
 
 // Lazy load components that aren't needed immediately
 
@@ -226,27 +225,6 @@ const Scene: React.FC = () => {
     []
   );
 
-  const buttonStyle = useMemo(
-    () => ({
-      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
-      border: "1px solid rgba(255, 255, 255, 0.1)",
-      position: "relative" as const,
-      overflow: "hidden",
-      transform: "translateY(-30%)",
-      opacity: 1,
-      backdropFilter: "blur(10px)",
-    }),
-    []
-  );
-
-  const buttonGradientStyle = useMemo(
-    () => ({
-      backgroundImage:
-        "radial-gradient(circle, rgba(255, 128, 0, 0.8) 0%, rgba(255, 128, 0, 0.6) 50%, rgba(255, 128, 0, 0.4) 100%)",
-    }),
-    []
-  );
-
   useEffect(() => {
     setIsClient(true);
     return () => {
@@ -341,21 +319,6 @@ const Scene: React.FC = () => {
       </div>
       <div style={bottomContainerStyle}>
         <Secondtexthero />
-        <button
-          className="group relative px-6 py-3 rounded-full hover:bg-white/10 transition-all duration-300"
-          style={buttonStyle}
-        >
-          <span className="flex items-center gap-2 relative z-10">
-            Portofolio
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </span>
-
-          {/* Button gradient background */}
-          <div
-            className="absolute inset-0 rounded-full pointer-events-none"
-            style={buttonGradientStyle}
-          ></div>
-        </button>
       </div>
     </div>
   );
