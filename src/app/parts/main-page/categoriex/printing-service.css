@@ -2,9 +2,9 @@
 .printing-service-wrapper {
   position: relative;
   width: 100%;
+  height: 100%;
   max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
+  margin: 1px auto;
   overflow: hidden;
 }
 .printing-service-container {
@@ -29,17 +29,11 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   z-index: 1;
-  color: #f7f7f7; /* Default text color for the container */
-  font-weight: 400;
   font-family: "Lato", sans-serif;
+  color: #f7f7f7;
 }
 
 /* Media query for larger screens */
-@media (min-width: 768px) {
-  .printing-service-container {
-    padding: 140px;
-  }
-}
 
 /* Typography */
 .service-title {
@@ -48,6 +42,7 @@
   color: #f7f7f7;
   text-align: center;
   position: relative;
+  font-family: "Lato", sans-serif;
 }
 
 .service-description {
@@ -59,6 +54,7 @@
   font-size: 1.2rem;
   margin-bottom: 20px;
   color: #f7f7f7;
+  font-family: "Lato", sans-serif;
 }
 
 .service-description ul {
@@ -77,6 +73,7 @@
   border-radius: 30px;
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(255, 128, 0, 0.3);
+  font-family: "Lato", sans-serif;
 }
 
 /* Printer component */
