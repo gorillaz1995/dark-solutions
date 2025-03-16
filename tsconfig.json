@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2020", // Upgraded target for better performance
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,7 +12,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    // Performance optimizations
     "incremental": true,
+    "removeComments": true, // Reduces bundle size
+    "sourceMap": false, // Faster builds
+    "importsNotUsedAsValues": "remove", // Removes unused imports
     "plugins": [
       {
         "name": "next"
@@ -23,5 +27,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "out"] // Expanded exclusions for faster compilation
 }

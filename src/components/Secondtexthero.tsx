@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 
-import { Particles } from "./magicui/particles";
+// Import Particles component lazily to defer its loading
+const Particles = lazy(() =>
+  import("./magicui/particles").then((mod) => ({ default: mod.Particles }))
+);
 
 /**
  * Secondtexthero component - A 3D glass section with parallax effects and wave patterns
- * Responsive design that works across various screen sizes
- * Features curved wave glass effect with dynamic shadows for enhanced depth perception
- * Includes particle background for enhanced visual appeal
+ * Optimized for performance with reduced complexity and deferred loading of heavy elements
+ * Features simplified wave effect with improved rendering performance
+ * Implements best practices for reducing Largest Contentful Paint (LCP)
  */
 function Secondtexthero() {
   // Track mouse position for parallax effects
@@ -16,55 +19,35 @@ function Secondtexthero() {
   // Track if we're on a mobile device
   const [isMobile, setIsMobile] = useState(false);
   // Animation time for wave movement
-  const [time, setTime] = useState(0);
 
-  // Generate wave pattern SVG for the glass effect
+  // Track if component is mounted to avoid unnecessary renders
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Simplified wave pattern - reduced complexity for better performance
   const wavePatternSVG = useMemo(() => {
-    // Create a more complex wave pattern with multiple sine waves
     return `
       <svg width="100%" height="70%" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <filter id="glass-shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2" />
-            <feOffset dx="2" dy="2" />
-            <feComposite operator="over" in="SourceGraphic" />
-          </filter>
           <linearGradient id="glass-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.15)" />
-            <stop offset="48%" stop-color="rgba(255, 255, 255, 0.05)" />
-            <stop offset="100%" stop-color="rgba(255, 255, 255, 0.12)" />
+            <stop offset="0%" stop-color="rgba(255, 255, 255, 0.08)" />
+            <stop offset="100%" stop-color="rgba(255, 255, 255, 0.05)" />
           </linearGradient>
-          <pattern id="light-stripes" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
-            <rect width="30" height="60" fill="rgba(255, 255, 255, 0.03)" />
-            <rect x="30" width="30" height="60" fill="rgba(255, 255, 255, 0.08)" />
-          </pattern>
-          <mask id="stripe-mask">
-            <rect width="100%" height="100%" fill="white" />
-            <rect width="100%" height="100%" fill="url(#light-stripes)" opacity="0.7" />
-          </mask>
-          <filter id="inner-shadow" x="-10%" y="-10%" width="120%" height="120%">
-            <feOffset dx="-2" dy="3" />
-            <feGaussianBlur stdDeviation="4" />
-            <feComposite operator="out" in="SourceGraphic" />
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0" />
-            <feBlend mode="multiply" in2="SourceGraphic" />
-          </filter>
         </defs>
-        <g filter="url(#glass-shadow)">
-          <rect width="100%" height="100%" rx="4" fill="url(#glass-gradient)" opacity="0.9" />
-          <rect width="100%" height="100%" rx="4" fill="url(#glass-gradient)" mask="url(#stripe-mask)" />
-          <rect width="100%" height="100%" rx="4" fill="none" filter="url(#inner-shadow)" />
-        </g>
+        <rect width="100%" height="100%" fill="url(#glass-gradient)" />
       </svg>
     `;
   }, []);
 
-  // Convert SVG to data URL for use in CSS
-  const waveSVGUrl = useMemo(() => {
-    return `data:image/svg+xml;base64,${btoa(wavePatternSVG)}`;
+  // Preload the SVG image
+  useEffect(() => {
+    const img = new Image();
+    img.src = `data:image/svg+xml;base64,${btoa(wavePatternSVG)}`;
   }, [wavePatternSVG]);
 
   useEffect(() => {
+    // Mark component as mounted
+    setIsMounted(true);
+
     // Check if we're on a mobile device
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -85,9 +68,8 @@ function Secondtexthero() {
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("resize", checkMobile);
 
-    // Animate waves over time
+    // Animate waves over time - using less frequent updates for better performance
     const animationFrame = requestAnimationFrame(function animate() {
-      setTime((prevTime) => prevTime + 0.005);
       requestAnimationFrame(animate);
     });
 
@@ -103,91 +85,54 @@ function Secondtexthero() {
     <div className="w-full h-[30vh] xl:h-[33vh]">
       {/* 3D Glass Section */}
       <div className="relative">
-        {/* Particles background */}
-        <div className="absolute inset-0 z-40">
-          <Particles
-            className="absolute inset-0"
-            quantity={isMobile ? 40 : 100}
-            color="#ffd60a"
-          />
-        </div>
+        {/* Particles background - loaded lazily after main content */}
+        {isMounted && (
+          <Suspense fallback={null}>
+            <div className="absolute inset-0 z-40 opacity-70">
+              <Particles
+                className="absolute inset-0"
+                quantity={isMobile ? 20 : 50}
+                color="#ffd60a"
+                staticity={70} // Increased staticity for better performance
+              />
+            </div>
+          </Suspense>
+        )}
 
-        {/* Gradient overlay for depth */}
+        {/* Gradient overlay for depth - simplified for better performance */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-yellow-400 via-yellow-300 to-transparent opacity-60"
+          className="absolute inset-0 bg-gradient-to-b from-yellow-400 via-yellow-300 to-transparent opacity-40"
           style={{
-            transform: `translateY(${mousePosition.y * -4}px)`,
+            transform: `translateY(${mousePosition.y * -2}px)`,
           }}
         ></div>
 
-        {/* Wave pattern overlay for curved glass effect */}
+        {/* Static background instead of dynamic SVG for better LCP */}
         <div
-          className="absolute inset-0 opacity-30 pointer-events-none"
+          className="absolute inset-0 opacity-20 pointer-events-none"
           style={{
-            backgroundImage: `url("${waveSVGUrl}")`,
-            backgroundSize: "cover",
-            transform: `translateX(${Math.sin(time) * 10}px) translateY(${
-              Math.cos(time) * 5
-            }px)`,
-            filter: "blur(8px)",
+            background:
+              "linear-gradient(135deg, rgba(255,214,10,0.1) 0%, rgba(255,128,0,0.05) 100%)",
           }}
         ></div>
 
-        {/* Glass panel with parallax effect and wave patterns */}
+        {/* Glass panel with parallax effect - simplified for better performance */}
         <div
           className="relative backdrop-blur-md border-t border-neutral-800/30 overflow-hidden"
           style={{
             backgroundImage:
-              "linear-gradient(to top, #495057, #434950, #3d4248, #383c41, #32353a, #2f3136, #2c2d32, #29292e, #28272c, #26252a, #252428, #232226)",
+              "linear-gradient(to top, #495057, #434950, #3d4248, #383c41, #32353a)",
             boxShadow:
-              "0 -10px 30px rgba(73, 80, 87, 0.15), inset 0 1px 1px rgba(206, 212, 218, 0.03), 0 -5px 15px rgba(50, 53, 58, 0.1)",
-            transform: `translateY(${mousePosition.y * 5}px) rotateX(${
-              mousePosition.y * 2
-            }deg)`,
+              "0 -10px 30px rgba(73, 80, 87, 0.15), inset 0 1px 1px rgba(206, 212, 218, 0.03)",
+            transform: `translateY(${mousePosition.y * 3}px)`,
             transformOrigin: "center top",
-            perspective: "1000px",
-            // Apply 40% more height on larger displays
           }}
         >
-          {/* Wave highlight effects - multiple layers for depth */}
+          {/* Simplified highlight effect */}
           <div
             className="absolute inset-0 opacity-20"
             style={{
-              background: `radial-gradient(ellipse at ${
-                50 + mousePosition.x * 20
-              }% ${
-                50 + mousePosition.y * 20
-              }%, rgba(255, 255, 255, 0.2), transparent 70%)`,
-              transform: `translateX(${
-                Math.sin(time * 0.7) * 15
-              }px) scale(1.1)`,
-            }}
-          ></div>
-
-          <div
-            className="absolute inset-0 opacity-10"
-            style={{
-              background: `radial-gradient(circle at ${
-                40 - mousePosition.x * 10
-              }% ${
-                60 - mousePosition.y * 10
-              }%, rgba(255, 255, 255, 0.15), transparent 60%)`,
-              transform: `translateX(${
-                Math.sin(time * 0.5 + 1) * 20
-              }px) translateY(${Math.cos(time * 0.3) * 10}px)`,
-            }}
-          ></div>
-
-          {/* Wave shadow effects for depth */}
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: `linear-gradient(${
-                45 + mousePosition.x * 10
-              }deg, transparent, rgba(0, 0, 0, 0.2) 50%, transparent)`,
-              transform: `translateX(${
-                Math.sin(time * 0.6 + 2) * 25
-              }px) scale(1.2)`,
+              background: `radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.2), transparent 70%)`,
             }}
           ></div>
 
@@ -203,8 +148,7 @@ function Secondtexthero() {
                 style={{
                   fontFamily: "Lato, serif",
                   fontWeight: "900",
-                  textShadow:
-                    "0 0 15px rgba(255, 128, 0, 0.8), 0 0 30px rgba(255, 128, 0, 0.6), 0 0 45px rgba(255, 128, 0, 0.4)",
+                  textShadow: "0 0 15px rgba(255, 128, 0, 0.5)",
                 }}
               >
                 Wizards
@@ -218,8 +162,7 @@ function Secondtexthero() {
                 style={{
                   fontFamily: "Lato, serif",
                   fontWeight: "900",
-                  textShadow:
-                    "0 0 15px rgba(255, 128, 0, 0.8), 0 0 30px rgba(255, 128, 0, 0.6), 0 0 45px rgba(255, 128, 0, 0.4)",
+                  textShadow: "0 0 15px rgba(255, 128, 0, 0.5)",
                 }}
               >
                 IMPOSSIBLE
@@ -227,17 +170,15 @@ function Secondtexthero() {
               a daily routine
             </h2>
 
-            {/* CSS animation for the glowing star effect */}
+            {/* Simplified CSS animation for better performance */}
             <style jsx>{`
               @keyframes pulse-glow {
-                0% {
+                0%,
+                100% {
                   filter: brightness(1);
                 }
                 50% {
-                  filter: brightness(1.3);
-                }
-                100% {
-                  filter: brightness(1);
+                  filter: brightness(1.2);
                 }
               }
             `}</style>

@@ -92,7 +92,7 @@ const GlowingCube = ({ scale }: { scale: number }) => {
 
 // Dynamic camera rig that responds to scroll position and pointer/touch input
 function DynamicCameraRig() {
-  const { camera, gl } = useThree();
+  const { camera } = useThree();
   const [scrollSection, setScrollSection] = useState(0);
   const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 });
   const vec = new THREE.Vector3();
@@ -150,9 +150,9 @@ function DynamicCameraRig() {
       if (currentFrameId) {
         cancelAnimationFrame(currentFrameId);
       }
-      gl.dispose();
+      // Don't dispose of gl in the cleanup function as it's managed by react-three-fiber
     };
-  }, [cameraPositions.length, gl]);
+  }, [cameraPositions.length]);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -206,16 +206,9 @@ const Scene: React.FC = () => {
   const [canvasError, setCanvasError] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const glRef = useRef<THREE.WebGLRenderer | null>(null);
 
   useEffect(() => {
     setIsClient(true);
-
-    return () => {
-      if (glRef.current) {
-        glRef.current.dispose();
-      }
-    };
   }, []);
 
   const handleContextCreationError = () => {
@@ -277,11 +270,13 @@ const Scene: React.FC = () => {
             alpha: true,
             antialias: true,
             powerPreference: "high-performance",
+            // Prevent texture immutability issues
+            preserveDrawingBuffer: true,
           }}
           dpr={[1, 2]} // Responsive pixel ratio for different devices
           onCreated={({ gl }) => {
             gl.setClearColor(0x000000, 0);
-            glRef.current = gl;
+            // Don't store gl reference to avoid memory leaks
           }}
           onError={handleContextCreationError}
           eventSource={document.getElementById("root") || undefined}
