@@ -20,7 +20,7 @@ const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
   return (
     <div
       className={cn(
-        "grid  auto-rows-[30rem]  grid-cols-3 gap-4   lg:px-35 ",
+        "grid auto-rows-[30rem] grid-cols-2 gap-4 max-w-6xl mx-auto px-4 md:px-6",
         className
       )}
       {...props}
@@ -33,7 +33,7 @@ const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
 const BentoCard = ({ content, className, ...props }: BentoCardProps) => (
   <div
     className={cn(
-      "group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-xl ",
+      "group relative col-span-2 flex flex-col justify-between overflow-hidden rounded-xl ",
       // light styles
       "bg-gradient [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]",
       // dark styles

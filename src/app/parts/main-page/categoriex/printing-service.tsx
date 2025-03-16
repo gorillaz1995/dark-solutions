@@ -32,7 +32,7 @@ export default function PrintingService() {
       <div className="external-line line-3"></div>
 
       <div className="printing-service-container" ref={containerRef}>
-        <h2 className="service-title">Professional Printing Services</h2>
+        <h2 className="service-title">INDOOR & OUTDOOR Printing</h2>
 
         {/* Printer component representation */}
         <div className="printer-component">
@@ -57,11 +57,11 @@ export default function PrintingService() {
         </div>
 
         <div className="service-description">
-          <p>High-quality printing solutions for all your business needs</p>
+          <p>High-quality printing solutions covering all industries needs</p>
           <ul>
             <li>Business Cards</li>
             <li>Brochures</li>
-            <li>Posters</li>
+            <li>Banners</li>
             <li>Custom Designs</li>
           </ul>
         </div>

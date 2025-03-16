@@ -1,5 +1,6 @@
 import Scndsection from "./Scndsection";
 import Grid2Demo from "@/components/bento-grid/grid2-demo";
+import BigText21 from "./Bigtext21";
 
 export default function Glidex() {
   return (
@@ -7,6 +8,7 @@ export default function Glidex() {
       <div className="py-10 lg:py-40 backgrd2">
         <Scndsection />
       </div>
+      <BigText21 />
       {/* Smooth transition banner from dark to bright gradient */}
 
       <div className="py-10 bg-gradient">
