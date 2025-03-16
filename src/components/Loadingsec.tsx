@@ -9,11 +9,11 @@ interface LoadingSecProps {
   duration?: number;
 }
 
-// Create a preloadable loading component that can be controlled externally
+// Optimized loading component with minimal rendering overhead
 const LoadingSec: React.FC<LoadingSecProps> = ({
   isLoading = true,
   onLoadingComplete = () => {},
-  duration = 500,
+  duration = 750, // Fixed at 750ms (0.75 seconds)
 }) => {
   // Handle auto-completion of loading if not controlled externally
   useEffect(() => {
@@ -27,61 +27,40 @@ const LoadingSec: React.FC<LoadingSecProps> = ({
     }
   }, [isLoading, onLoadingComplete, duration]);
 
+  // Early return if not loading to avoid unnecessary rendering
+  if (!isLoading) return null;
+
   return (
-    <>
-      {isLoading && (
-        <div className="fixed inset-0 z-50 overflow-hidden bg-amber-300 h-screen w-screen">
-          {/* Simple split layout */}
-          <div className="absolute inset-0 flex">
-            {/* Left panel */}
-            <div className="relative w-1/2 h-full overflow-hidden">
-              <div className="absolute inset-0 bg-black">
-                {/* Subtle texture overlay */}
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(to bottom, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px)",
-                  }}
-                />
-              </div>
-            </div>
+    <div
+      className="fixed inset-0 z-50 bg-amber-300 h-screen w-screen flex items-center justify-center"
+      // Use inline styles for critical rendering path
+      style={{
+        backgroundColor: "#fcd34d", // Amber-300 hex value for faster parsing
+      }}
+    >
+      {/* Simplified layout with no animations */}
+      <div className="flex w-full h-full">
+        {/* Left panel - static */}
+        <div className="w-1/2 h-full bg-black" />
 
-            {/* Right panel */}
-            <div className="relative w-1/2 h-full overflow-hidden">
-              <div className="absolute inset-0 bg-black">
-                {/* Subtle texture overlay */}
-                <div
-                  className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(to bottom, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px)",
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+        {/* Right panel - static */}
+        <div className="w-1/2 h-full bg-black" />
+      </div>
 
-          {/* Center content with greeting text */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="relative">
-              <h1
-                className="text-6xl md:text-8xl text-yellow-200 font-extralight tracking-tight"
-                style={{
-                  fontSize: "16vw",
-                  lineHeight: "1",
-                  wordBreak: "break-word",
-                  fontWeight: "100",
-                  fontFamily: "Lato, serif", // Using direct font-family instead of Tailwind class
-                }}
-              >
-                We glow in dark
-              </h1>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+      {/* Pre-rendered text with no animations */}
+      <h1
+        className="absolute text-orange-500"
+        style={{
+          fontSize: "clamp(2rem, 16vw, 20rem)", // Responsive but more performant than pure vw
+          lineHeight: "1",
+          fontWeight: "100",
+          fontFamily: "Lato, -apple-system, sans-serif", // System fonts for faster loading
+          textAlign: "center",
+        }}
+      >
+        We glow in dark
+      </h1>
+    </div>
   );
 };
 

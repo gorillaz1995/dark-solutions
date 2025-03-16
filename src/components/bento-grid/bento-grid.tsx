@@ -1,16 +1,9 @@
 "use client";
-import React, { lazy, Suspense, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
-
-// Lazy load the BorderBeam component to reduce initial bundle size
-const LazyBorderBeam = lazy(() =>
-  import("./border-beam").then((mod) => ({
-    default: mod.BorderBeam,
-  }))
-);
 
 interface BentoGridProps extends ComponentPropsWithoutRef<"div"> {
   children: ReactNode;
@@ -30,12 +23,19 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
 const useIntersectionObserver = (options = {}) => {
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [hasBeenVisible, setHasBeenVisible] = useState(false);
 
   useEffect(() => {
     if (!ref) return;
 
     const observer = new IntersectionObserver(([entry]) => {
-      setIsVisible(entry.isIntersecting);
+      const isCurrentlyVisible = entry.isIntersecting;
+      setIsVisible(isCurrentlyVisible);
+
+      // Once the element has been visible, mark it as seen
+      if (isCurrentlyVisible && !hasBeenVisible) {
+        setHasBeenVisible(true);
+      }
     }, options);
 
     observer.observe(ref);
@@ -43,9 +43,9 @@ const useIntersectionObserver = (options = {}) => {
     return () => {
       if (ref) observer.unobserve(ref);
     };
-  }, [ref, options]);
+  }, [ref, options, hasBeenVisible]);
 
-  return [setRef, isVisible] as const;
+  return [setRef, isVisible, hasBeenVisible] as const;
 };
 
 const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
@@ -70,7 +70,7 @@ const BentoCard = ({
   ...props
 }: BentoCardProps) => {
   // Use intersection observer to detect when card is visible
-  const [ref, isVisible] = useIntersectionObserver({
+  const [ref] = useIntersectionObserver({
     rootMargin: "100px",
     threshold: 0.1,
   });
@@ -81,12 +81,11 @@ const BentoCard = ({
       key={name}
       className={cn(
         "group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-xl",
-        // Enhanced 3D effect with shadows and light
         className
       )}
       style={{
         boxShadow:
-          "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.3)", // Changed to a golden-orange shade
+          "inset 0 0 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.3)", // Golden-orange shade
         background:
           "radial-gradient(circle, rgba(40, 20, 10, 0.2) 0%, rgba(255, 200, 150, 0.15) 120%)",
         border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -102,28 +101,6 @@ const BentoCard = ({
       }}
       {...props}
     >
-      {/* Border beam animation on hover - only render when visible in viewport */}
-      <div
-        className="absolute inset-0 opacity-1 group-hover:opacity-100 transition-opacity duration-300 z-21"
-        style={{
-          // Improve Safari performance by forcing hardware acceleration
-          WebkitTransform: "translateZ(0)",
-          WebkitBackfaceVisibility: "hidden",
-        }}
-      >
-        {isVisible ? (
-          <Suspense fallback={null}>
-            <LazyBorderBeam
-              size={100}
-              duration={2.5}
-              colorFrom="#000000"
-              colorTo="#000000"
-              className="opacity-100"
-            />
-          </Suspense>
-        ) : null}
-      </div>
-
       {/* Enhanced background with subtle inner shadow for depth */}
       <div>{background}</div>
 
@@ -138,7 +115,7 @@ const BentoCard = ({
         }}
       >
         <h3
-          className="text-xl lg:text-2xl text-[#00000] relative"
+          className="text-xl lg:text-2xl text-[#000000] relative"
           style={{
             fontFamily: "Lato, -apple-system, BlinkMacSystemFont, sans-serif", // Add system fonts as fallback
             fontWeight: "700",
