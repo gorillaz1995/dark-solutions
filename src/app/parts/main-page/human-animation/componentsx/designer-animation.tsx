@@ -114,7 +114,7 @@ export default function DesignerAnimation() {
                 />
                 <motion.rect
                   x="350"
-                  y1="280"
+                  y="280"
                   width="150"
                   height="80"
                   fill="#e9ecef"
@@ -246,7 +246,6 @@ export default function DesignerAnimation() {
                   strokeWidth="20"
                   strokeLinecap="round"
                   animate={{
-                    d: "M140,240 L90,280 L70,260",
                     rotate: [0, 5, 0],
                     x: [0, 5, 0],
                   }}
@@ -263,7 +262,6 @@ export default function DesignerAnimation() {
                   strokeWidth="20"
                   strokeLinecap="round"
                   animate={{
-                    d: "M220,240 L270,290 L290,270",
                     rotate: [0, -5, 0],
                     x: [0, -5, 0],
                   }}

@@ -24,19 +24,46 @@ const features = [
     cta: "",
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
     content: (
-      <div>
-        <Finalxdes />
+      <div className="flex flex-col justify-between">
+        <div className="flex-grow">
+          <Finalxdes />
+        </div>
+        <div className="p-3 md:p-4 text-center items-center justify-center">
+          <h3
+            className="text-[#f7f7f7] text-2xl md:text-2xl mb-3 md:mb-2"
+            style={{ fontFamily: "Lato, sans-serif", fontWeight: 300 }}
+          >
+            Pixel-perfect Graphic Design
+          </h3>
+          <p
+            className="text-[#f7f7f7] text-sm md:text-sm opacity-80 mt-2"
+            style={{ fontFamily: "Lato, sans-serif", fontWeight: 300 }}
+          >
+            Versatile design solutions for any challenge - no task is too
+            complex for our creative team
+          </p>
+        </div>
       </div>
     ),
     background: null,
   },
   {
-    name: "",
+    name: "Graphic Design",
     description: "",
-    href: "/",
-    cta: "",
+    href: "/services/design",
+    cta: "Explore",
     className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
-    background: null,
+    content: (
+      <div className="  flex items-center justify-center p-4">
+        <h3
+          className="text-white font-light text-center text-2xl md:text-3xl lg:text-4xl"
+          style={{ fontFamily: "Lato, sans-serif", fontWeight: 300 }}
+        >
+          Graphic Design
+        </h3>
+      </div>
+    ),
+    background: "bg-gradient-to-br from-purple-600 to-indigo-800",
   },
   {
     name: "",
