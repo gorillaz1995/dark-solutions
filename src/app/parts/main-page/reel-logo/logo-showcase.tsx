@@ -69,9 +69,9 @@ export default function LogoShowcase() {
   // Return a placeholder during SSR to prevent hydration issues
   if (!isClient) {
     return (
-      <section className="logo-showcase bg-integrated">
+      <section className=" bg-integrated">
         <div className="container">
-          <h2 className="showcase-title">Trusted by 69+ Clients</h2>
+          <h2>Trusted by 69+ Clients</h2>
         </div>
       </section>
     );

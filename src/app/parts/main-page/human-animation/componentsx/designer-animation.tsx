@@ -24,7 +24,7 @@ export default function DesignerAnimation() {
   };
 
   return (
-    <div className="designer-animation-container">
+    <div className="designer-animation-container h-full w-full">
       <div className="controls">
         <button
           className={`control-btn ${

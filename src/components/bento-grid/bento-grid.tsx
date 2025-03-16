@@ -18,9 +18,15 @@ interface BentoCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const BentoGrid = ({ children, className, ...props }: BentoGridProps) => {
   return (
     <div
-      className={`w-[90%] sm:w-[85%] md:w-[80%] lg:w-[85%] grid auto-rows-[25rem] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 px-2 lg:px-20 mx-auto ${
+      className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-9xl mx-auto ${
         className || ""
       }`}
+      style={{
+        gridAutoRows: "25rem", // Fixed height for consistency
+        width: "min(95%, 1800px)", // Increased responsive width with larger max constraint
+
+        maxWidth: "100%", // Ensure it doesn't overflow viewport
+      }}
       {...props}
     >
       {children}
@@ -59,17 +65,18 @@ const BentoCard = ({
       }}
       {...props}
     >
-      {/* Enhanced background with subtle inner shadow for depth */}
-      <div>{background}</div>
+      {/* Background container with fixed dimensions to prevent layout shifts */}
+      <div className="absolute inset-0 w-full h-full">{background}</div>
 
-      {/* Content with enhanced depth and hover effect - using CSS variables for animations */}
+      {/* Content with fixed positioning and dimensions to prevent layout shifts */}
       <div
-        className="pointer-events-none z-10 flex flex-col gap-2 p-6 transition-all duration-300 group-hover:-translate-y-10"
+        className="pointer-events-none z-10 flex flex-col gap-2 p-6 absolute bottom-0 left-0 right-0 transition-transform duration-300 group-hover:-translate-y-10"
         style={{
           // Use CSS transform for better performance
           transform: "translate3d(0,0,0)",
           WebkitTransform: "translate3d(0,0,0)",
           WebkitTransition: "all 300ms cubic-bezier(0.33, 1, 0.68, 1)",
+          height: "auto", // Allow content to determine height but prevent shifts
         }}
       >
         <h3
