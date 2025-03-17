@@ -40,16 +40,6 @@ const nextConfig: NextConfig = {
       }
     }
 
-    // Optimize for production builds
-    if (!isServer && process.env.NODE_ENV === "production") {
-      // Ensure we have a performance budget
-      config.performance = {
-        hints: "warning",
-        maxEntrypointSize: 400000,
-        maxAssetSize: 400000,
-      };
-    }
-
     return config;
   },
 
