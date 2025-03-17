@@ -57,9 +57,6 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
     scrollRestoration: true,
   },
-
-  // Optimize production builds
-  swcMinify: true, // Next.js 13+ has this enabled by default
 };
 
 export default nextConfig;
