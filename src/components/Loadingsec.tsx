@@ -25,6 +25,10 @@ const LoadingSec: React.FC<LoadingSecProps> = ({
 
       return () => clearTimeout(timer);
     }
+
+    // Return empty cleanup function for when isLoading is false
+    // This ensures all code paths return a value
+    return () => {};
   }, [isLoading, onLoadingComplete, duration]);
 
   // Early return if not loading to avoid unnecessary rendering
