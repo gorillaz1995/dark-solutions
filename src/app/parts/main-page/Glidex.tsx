@@ -11,8 +11,17 @@ export default function Glidex() {
       <BigText21 />
       {/* Smooth transition banner from dark to bright gradient */}
 
-      <div className="py-10 bg-gradient">
-        <Grid2Demo />
+      <div className="py-10 bg-gradient relative">
+        {/* Animated Blur Overlay for visual depth */}
+        <div className="blur-overlay">
+          <div className="blur-element"></div>
+          <div className="blur-element"></div>
+          <div className="blur-element"></div>
+        </div>
+        {/* Grid container with proper z-index to appear above blur effect */}
+        <div className="grid-container">
+          <Grid2Demo />
+        </div>
       </div>
     </div>
   );

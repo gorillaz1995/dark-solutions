@@ -221,12 +221,6 @@ export default function DesignerAnimation() {
               />
             )}
 
-            {/* Hair */}
-            <path d="M130,130 Q180,80 230,130" fill="#6c5ce7" />
-
-            {/* Neck */}
-            <path d="M165,200 L165,230 L195,230 L195,200" fill="#f8c291" />
-
             {/* Torso/Shirt */}
             <path d="M140,230 L220,230 L240,350 L120,350 Z" fill="#74b9ff" />
             <path

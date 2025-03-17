@@ -111,3 +111,145 @@
     #000000
   );
 }
+/* Animated Blur Overlay - Performance optimized */
+.blur-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0.6; /* Subtle effect */
+}
+
+.blur-element {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  background: linear-gradient(135deg, #ffb366 0%, #ff8000 100%);
+  opacity: 0;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0); /* Hardware acceleration */
+}
+
+/* Optimized animations with reduced complexity */
+@keyframes float-blur-1 {
+  0% {
+    transform: translate3d(0%, 10%, 0) scale(0.8);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate3d(25%, 15%, 0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate3d(75%, 20%, 0) scale(1.2);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate3d(50%, 15%, 0) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(0%, 10%, 0) scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes float-blur-2 {
+  0% {
+    transform: translate3d(80%, 30%, 0) scale(1.1);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translate3d(60%, 40%, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate3d(10%, 35%, 0) scale(0.9);
+    opacity: 0.6;
+  }
+  75% {
+    transform: translate3d(40%, 25%, 0) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate3d(80%, 30%, 0) scale(1.1);
+    opacity: 0.4;
+  }
+}
+
+@keyframes float-blur-3 {
+  0% {
+    transform: translate3d(30%, 70%, 0) scale(1.2);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate3d(10%, 60%, 0) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate3d(60%, 50%, 0) scale(0.8);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate3d(80%, 60%, 0) scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translate3d(30%, 70%, 0) scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+/* Apply animations to elements with responsive sizing */
+.blur-element:nth-child(1) {
+  width: clamp(200px, 40vw, 500px);
+  height: clamp(200px, 40vw, 500px);
+  animation: float-blur-1 25s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.blur-element:nth-child(2) {
+  width: clamp(180px, 35vw, 450px);
+  height: clamp(180px, 35vw, 450px);
+  animation: float-blur-2 30s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.blur-element:nth-child(3) {
+  width: clamp(150px, 30vw, 400px);
+  height: clamp(150px, 30vw, 400px);
+  animation: float-blur-3 35s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  .blur-element {
+    animation: none !important;
+    opacity: 0.3 !important;
+    transform: none !important;
+  }
+}
+
+/* Container for grid2demo with proper z-index layering */
+.grid-container {
+  position: relative;
+  z-index: 2; /* Above blur overlay */
+}
+
+/* Optimize performance on lower-end devices */
+@media (max-width: 768px) {
+  .blur-element {
+    filter: blur(30px); /* Less intensive blur on mobile */
+  }
+
+  .blur-element:nth-child(1),
+  .blur-element:nth-child(2),
+  .blur-element:nth-child(3) {
+    animation-duration: 45s; /* Slower animations for better performance */
+  }
+}
